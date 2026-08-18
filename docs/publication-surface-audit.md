@@ -96,3 +96,20 @@ At the frozen export, rerun technical/publication preflights, full tests/coverag
 deterministic build comparison, Twine, CFF validation, fresh-wheel smoke, archive safety, and exact
 file inventory. Record the source commit, tree digest, file count, artifact hashes, private CI URL/run,
 and private repository visibility. No visibility change is part of this audit.
+
+
+## Public visibility completion — 2026-08-18
+
+Owner authorized the v0.1.0 public source preview after final documentation reconciliation. GitHub
+repository ID `1337534105` is public at `MelaBuilt-AI/Filiolae`; release root
+`b77676b57ea5950c4221db351510cec32bda6f7b`, tree
+`51559f1f61daacf041c98486fa55715bf476e022`, and annotated tag `v0.1.0` were verified from a
+credential-free clone. The root has no parent and its current textual surface contains zero matches
+for the normalized personal Owner name.
+
+GitHub Private Vulnerability Reporting is enabled. Prerelease ID `371951140` is published with three
+CI-built assets: wheel SHA-256 `4e425dd7ccde4329f6807473fec38a5a660802daa621c91891000d153e074de7`,
+source distribution SHA-256 `82b7a1c4870c667d4fd54ab4dc456e27c8e3afabb2a41a07bf9086449d448de6`,
+and checksum-file SHA-256 `b16c00de7cc2505d8aa7f47912bbfe1d47cdde6094712613e30182b90131519b`.
+Unauthenticated download, hash verification, Python 3.11 wheel install/import, CLI version, source
+preflights, and repository/tag identity checks passed. No package index was used.

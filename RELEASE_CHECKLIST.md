@@ -21,7 +21,7 @@ explicit non-claims rather than silent blockers.
 - [x] Make `scripts/release_preflight.py --scope publication` pass with exact software/content license
   split, dual-licensing policy, adoption registry, CLA/trademark/certification documents, metadata,
   URLs, citation, reporting route, GitHub origin, claim-register, and public-surface checks.
-- [ ] After the separately approved visibility change, verify GitHub Private Vulnerability Reporting,
+- [x] After the separately approved visibility change, verify GitHub Private Vulnerability Reporting,
   run CI as a public observer, and retain the public workflow URL before announcement.
 
 ## Preview identity and policy
@@ -40,7 +40,7 @@ explicit non-claims rather than silent blockers.
 - [x] Add exact license/notice files, package metadata, Source/Documentation/Issues/Security URLs, and
   absolute README links that render from package indexes as well as GitHub.
 - [x] Select GitHub Private Vulnerability Reporting as the exact security route and encode its URL.
-- [ ] Enable and verify that GitHub route immediately after visibility changes and before announcement;
+- [x] Enable and verify that GitHub route immediately after visibility changes and before announcement;
   close/revert the gate if GitHub does not expose it.
 
 ## Phase 1 evidence gates
@@ -74,6 +74,6 @@ explicit non-claims rather than silent blockers.
 - [x] Compare the final AGPL candidate's private-CI result and build checks with the local release
   manifest; no superseded Apache artifact remains attached to the draft.
 - [x] Prepare release notes listing tested host SHAs, non-claims, migration/resume limits, and known risks.
-- [ ] After visibility approval, create the GitHub source-preview release from the frozen tag; do not
+- [x] After visibility approval, create the GitHub source-preview release from the frozen tag; do not
   publish to a package index in the same step.
-- [ ] Verify installation from the public release artifact in a fresh environment before announcement.
+- [x] Verify installation from the public release artifact in a fresh environment before announcement.
