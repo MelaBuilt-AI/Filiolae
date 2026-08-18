@@ -1,0 +1,3 @@
+I0813 09:52:48.706626   51669 files.go:496] Initializing directory for POSIX log at "/tmp/filiolae-s2-bnq5uuan/tessera-storage" (this should only happen ONCE per log!)
+I0813 09:52:48.710920   51669 append_lifecycle.go:732] Failed to fetch old checkpoint: file does not exist
+I0813 09:52:50.156226   51669 await.go:115] PublicationAwaiter exiting due to context completion

@@ -1,0 +1,13 @@
+State  Recv-Q Send-Q  Local Address:Port  Peer Address:PortProcess                                   
+LISTEN 0      100         127.0.0.1:46501      0.0.0.0:*    users:(("python",pid=42716,fd=26))       
+LISTEN 0      4096        127.0.0.1:46351      0.0.0.0:*    users:(("s2-personality",pid=51684,fd=5))
+LISTEN 0      100         127.0.0.1:45541      0.0.0.0:*    users:(("python",pid=42716,fd=14))       
+LISTEN 0      100         127.0.0.1:45319      0.0.0.0:*    users:(("python",pid=42716,fd=39))       
+LISTEN 0      100         127.0.0.1:45277      0.0.0.0:*    users:(("python",pid=42716,fd=10))       
+LISTEN 0      128           0.0.0.0:8644       0.0.0.0:*    users:(("hermes",pid=2208,fd=24))        
+LISTEN 0      100         127.0.0.1:45683      0.0.0.0:*    users:(("python",pid=42716,fd=12))       
+LISTEN 0      1000   10.255.255.254:53         0.0.0.0:*                                             
+LISTEN 0      4096    127.0.0.53%lo:53         0.0.0.0:*                                             
+LISTEN 0      100         127.0.0.1:45037      0.0.0.0:*    users:(("python",pid=42716,fd=31))       
+LISTEN 0      4096       127.0.0.54:53         0.0.0.0:*                                             
+LISTEN 0      5           127.0.0.1:48069      0.0.0.0:*    users:(("python3",pid=51705,fd=3))       

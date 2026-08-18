@@ -1,0 +1,22 @@
+[Unit]
+Description=Filiolae exact Prime pod watchdog for %i
+Documentation=man:systemd.service(5)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.config/filiolae/watchdogs/%i.env
+ExecStart=%h/prime/filiolae/.venv/bin/python -B %h/prime/filiolae/ops/two-gpu-smoke/pod_controller.py --prime-bin %h/.local/bin/prime --state-dir %h/.local/state/filiolae/watchdogs deadline --pod-id %i --deadline ${DEADLINE_UTC} --wait-seconds 180 --poll-seconds 5 --yes
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/state/filiolae/watchdogs
+UMask=0077
+
+[Install]
+WantedBy=default.target

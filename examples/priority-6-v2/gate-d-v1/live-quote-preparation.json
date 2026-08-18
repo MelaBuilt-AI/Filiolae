@@ -1,0 +1,31 @@
+{
+  "gpu_resources": [
+    {
+      "id": "ea69b8",
+      "cloud_id": "gpu_1x_a6000",
+      "gpu_type": "A6000 48GB",
+      "gpu_count": 1,
+      "socket": "PCIe",
+      "provider": "massedcompute",
+      "location": "US",
+      "stock_status": "Available",
+      "price_per_hour": "$0.54",
+      "price_value": 0.54,
+      "security": "datacenter",
+      "vcpus": "6",
+      "memory_gb": "48",
+      "disk_gb": "256",
+      "gpu_memory": 48,
+      "is_spot": null
+    }
+  ],
+  "total_count": 1,
+  "filters": {
+    "gpu_type": "A6000_48GB",
+    "gpu_count": 1,
+    "regions": null,
+    "socket": null,
+    "provider": null,
+    "group_similar": false
+  }
+}

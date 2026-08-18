@@ -1,0 +1,112 @@
+name: native systemd containment game day
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: filiolae-native-systemd-containment
+  cancel-in-progress: false
+
+jobs:
+  game-day:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - name: Admit the native host
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/filiolae-native-systemd-game-day"
+          mkdir "$root"
+          python3 ops/systemd-containment/host_probe.py "$root/host" \
+            2>&1 | tee "$root/host-console.log"
+      - name: Build and install the exact game-day wheel
+        run: |
+          set -euo pipefail
+          uv build --wheel
+          sha256sum dist/filiolae-*.whl | tee "$RUNNER_TEMP/game-day-wheel.sha256"
+          uv_bin=$(command -v uv)
+          python_bin=/usr/bin/python3
+          test -x "$python_bin"
+          sudo install -d -o root -g root -m 0755 /opt/filiolae-systemd-game-day
+          sudo "$uv_bin" venv --python "$python_bin" /opt/filiolae-systemd-game-day/venv
+          resolved_python=$(readlink -f /opt/filiolae-systemd-game-day/venv/bin/python)
+          case "$resolved_python" in
+            /home/*) echo "service Python unexpectedly resolves below /home: $resolved_python" >&2; exit 1 ;;
+          esac
+          printf 'service_python=%s\n' "$resolved_python" | tee "$RUNNER_TEMP/game-day-python.txt"
+          sudo "$uv_bin" pip install \
+            --python /opt/filiolae-systemd-game-day/venv/bin/python \
+            dist/filiolae-*.whl
+      - name: Execute sequential containment scenarios
+        run: |
+          set -o pipefail
+          root="$RUNNER_TEMP/filiolae-native-systemd-game-day"
+          cp "$RUNNER_TEMP/game-day-wheel.sha256" "$RUNNER_TEMP/game-day-python.txt" "$root/"
+          sudo --preserve-env=GITHUB_SHA \
+            python3 ops/systemd-containment/run_game_day.py \
+            "$root/game-day" "$GITHUB_WORKSPACE" /opt/filiolae-systemd-game-day/venv \
+            2>&1 | tee "$root/game-day-console.log"
+      - name: Emergency fail-closed cleanup
+        if: always()
+        run: |
+          set +e
+          mapfile -t units < <(
+            systemctl list-units --all --plain --no-legend \
+              'filiolae-orchestrator@*.service' 'filiolae-witness@*.service' \
+              | awk '{print $1}'
+          )
+          if ((${#units[@]})); then
+            sudo systemctl stop "${units[@]}"
+          fi
+          sudo pkill -KILL -f '/usr/libexec/[f]iliolae-containment-harness' || true
+          sudo rm -f \
+            /etc/filiolae-witness/ed25519-private.pem \
+            /root/filiolae-game-day-private.pem \
+            /root/filiolae-game-day-public.pem
+          test ! -e /etc/filiolae-witness/ed25519-private.pem
+      - name: Package game-day evidence
+        if: always()
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/filiolae-native-systemd-game-day"
+          test -d "$root"
+          test -f "$root/host/probe-report.json"
+          test -f "$root/game-day/GAME-DAY-REPORT.json"
+          if find "$root" -type l -print -quit | grep -q .; then
+            echo "symlink forbidden in evidence" >&2
+            exit 1
+          fi
+          if find "$root" \! -type d \! -type f -print -quit | grep -q .; then
+            echo "special file forbidden in evidence" >&2
+            exit 1
+          fi
+          (
+            cd "$root"
+            find . -type f ! -name SHA256SUMS -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > SHA256SUMS
+          )
+          archive="$RUNNER_TEMP/filiolae-native-systemd-game-day.tar.gz"
+          tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner \
+            -C "$RUNNER_TEMP" -czf "$archive" filiolae-native-systemd-game-day
+          (
+            cd "$RUNNER_TEMP"
+            sha256sum filiolae-native-systemd-game-day.tar.gz \
+              > filiolae-native-systemd-game-day.tar.gz.sha256
+          )
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: native-systemd-game-day-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/filiolae-native-systemd-game-day.tar.gz
+            ${{ runner.temp }}/filiolae-native-systemd-game-day.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 14

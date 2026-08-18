@@ -1,0 +1,17 @@
+{
+  "orchestrator": {
+    "gid": 985,
+    "uid": 985
+  },
+  "shared_group": {
+    "gid": 987,
+    "members": [
+      "filiolae-orchestrator",
+      "filiolae-witness"
+    ]
+  },
+  "witness": {
+    "gid": 986,
+    "uid": 986
+  }
+}

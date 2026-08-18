@@ -1,0 +1,60 @@
+{
+  "cases": [
+    {
+      "case": "S2.0",
+      "detail": "pins/modes verified; one 127.0.0.1 ephemeral listener; invalid leaf and internal/arbitrary paths rejected",
+      "status": "passed"
+    },
+    {
+      "case": "S2.1",
+      "detail": "nine synthetic leaves; exact complete Python/Go mirrors agree on checkpoint root",
+      "status": "passed"
+    },
+    {
+      "case": "S2.2",
+      "detail": "new ephemeral port; empty-mirror rebuild; exact old bytes; append-only growth 9->11 verified",
+      "status": "passed"
+    },
+    {
+      "case": "S2.3",
+      "detail": "both monitors stayed suspect/no-state on truncated bundle and recovered from exact immutable resource",
+      "status": "passed"
+    },
+    {
+      "case": "S2.4",
+      "detail": "dropped accepted response remained unknown; monitors resolved inclusion; retry became two explicit identical leaves",
+      "status": "passed"
+    },
+    {
+      "case": "S2.5",
+      "detail": "changed old immutable URL preserved as conflict; both monitors refused 14->15 advancement, then recovered",
+      "status": "passed"
+    },
+    {
+      "case": "S2.6",
+      "detail": "SIGKILL outcome reconciled at size 15; final exact size 16; clean stop, no key/listener",
+      "status": "passed"
+    }
+  ],
+  "date": "2026-08-13",
+  "final_root_hex": "f9d6db4e49cbf86a0fb06f4444b3950bfcb1eb8f73191a54ae283a84ac10790d",
+  "final_tree_size": 16,
+  "isolation": "separate-process/disjoint-mode-0700-roots; same UID, not production UID isolation",
+  "network": "runtime services/dials were IPv4 127.0.0.1 ephemeral only with no proxy environment; public dependency/advisory metadata was fetched during preflight",
+  "non_claims": [
+    "public transparency",
+    "independent administration",
+    "witness quorum",
+    "trusted time",
+    "public retention",
+    "production containment",
+    "Gate coupling",
+    "release readiness"
+  ],
+  "schema": "filiolae.transparency-s2-acceptance.v1",
+  "status": "passed",
+  "tessera": {
+    "commit": "6bca8e8d5e23c9941f2b8a08f512b373f7131730",
+    "version": "v1.0.4"
+  }
+}

@@ -1,0 +1,1 @@
+{"cloud_id":"gpu_1x_a6000","disk_gb":"256","gpu_count":1,"gpu_memory":48,"gpu_type":"A6000 48GB","id":"b1fae8","is_spot":null,"location":"US","memory_gb":"48","price_per_hour":"$0.54","price_value":0.54,"provider":"massedcompute","security":"datacenter","socket":"PCIe","stock_status":"Available","vcpus":"6"}

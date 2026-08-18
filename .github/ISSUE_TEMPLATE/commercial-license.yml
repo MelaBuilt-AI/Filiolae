@@ -1,0 +1,44 @@
+name: Commercial license inquiry
+description: Request separate commercial licensing information without posting sensitive details.
+title: "Commercial license inquiry: "
+labels: [commercial-licensing]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This public issue records an inquiry only; it grants no rights and does not establish adoption.
+        Do not include vulnerabilities, credentials, architecture, model details, pricing expectations,
+        or other confidential information.
+  - type: input
+    id: organization
+    attributes:
+      label: Organization
+      description: Legal or public organization name.
+    validations:
+      required: true
+  - type: dropdown
+    id: intended-status
+    attributes:
+      label: Intended status
+      options:
+        - evaluation
+        - research
+        - pilot
+        - deployment
+        - other or undecided
+    validations:
+      required: true
+  - type: textarea
+    id: rights
+    attributes:
+      label: Rights or compatibility needed
+      description: Give a nonsensitive summary of why AGPL-3.0-only may not fit.
+    validations:
+      required: true
+  - type: checkboxes
+    id: public-listing
+    attributes:
+      label: Public-accountability policy
+      options:
+        - label: I understand that any executed commercial license requires a public adoption-registry entry and offers no confidential-licensee exception.
+          required: true

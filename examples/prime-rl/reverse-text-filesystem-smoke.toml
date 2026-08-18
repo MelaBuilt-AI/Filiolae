@@ -1,0 +1,39 @@
+# Filiolae first live smoke profile for pinned prime-rl v0.8.0.
+# Requires exactly two visible GPUs: inference on GPU 0, trainer on GPU 1.
+max_steps = 2
+seq_len = 2048
+
+[weight_broadcast]
+type = "filesystem"
+
+[ckpt]
+
+[model]
+name = "PrimeIntellect/Qwen3-0.6B-Reverse-Text-SFT"
+
+[orchestrator]
+batch_size = 128
+group_size = 16
+
+[orchestrator.train.sampling]
+max_completion_tokens = 128
+
+[[orchestrator.train.source]]
+name = "reverse-text"
+
+[orchestrator.train.source.env.taskset]
+id = "reverse-text-v1"
+
+[orchestrator.train.source.env.agent.harness]
+id = "null"
+
+[orchestrator.train.source.env.agent.runtime]
+type = "subprocess"
+
+[trainer.optim]
+lr = 3e-6
+
+[inference]
+
+[orchestrator.renderer]
+name = "prime-qwen3"

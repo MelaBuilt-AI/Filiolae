@@ -1,0 +1,6 @@
+2026-08-13T23:38:04Z first immutable driver started as root.
+2026-08-13T23:38:05Z non-root preparation contract stopped; Python 3.10 terminal fallback also rejected datetime.UTC.
+2026-08-13T23:42:59Z corrected immutable same-pod driver started as ubuntu with managed Python 3.12.3.
+2026-08-13T23:45:19Z pinned dependency, metadata, host, GPU, and network preflight completed.
+2026-08-13T23:45:21Z runtime stopped before model load: refusing to overwrite output root.
+2026-08-13T23:47:02Z exact pod terminated; no SFT/readiness/final operation occurred.

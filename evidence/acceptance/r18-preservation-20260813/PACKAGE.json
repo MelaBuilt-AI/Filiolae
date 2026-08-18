@@ -1,0 +1,73 @@
+{
+  "aws": {
+    "backup_report": {
+      "errors": 0,
+      "rows": 34,
+      "success": 34
+    },
+    "configured_retention_days": 1095,
+    "msp360_object_lock_immutability": "enabled",
+    "restore_manifest_verification": "pass",
+    "restore_report": {
+      "errors": 0,
+      "finished": "2026-08-13 09:38:48",
+      "rows": 33,
+      "success": 33
+    }
+  },
+  "backblaze_b2": {
+    "backup_report": {
+      "errors": 0,
+      "rows": 34,
+      "success": 34
+    },
+    "configured_retention_days": 1095,
+    "msp360_object_lock_immutability": "disabled",
+    "restore_manifest_verification": "pass",
+    "restore_report": {
+      "errors": 0,
+      "finished": "2026-08-13 09:37:54",
+      "rows": 33,
+      "success": 33
+    }
+  },
+  "campaign": "prime-a6000-20260811-r18",
+  "evidence_scope": {
+    "does_not_independently_establish": [
+      "AWS Object Lock mode (Compliance versus Governance)",
+      "per-object S3 version retain-until timestamp",
+      "immutability of Backblaze B2 copy",
+      "three-PC/external-copy inventory"
+    ],
+    "establishes": [
+      "MSP360 backup job success",
+      "configured 1095-day retention",
+      "AWS plan Object Lock enabled",
+      "B2 plan Object Lock disabled",
+      "fresh restore success",
+      "restored package checksum verification"
+    ]
+  },
+  "inventory_comparison": {
+    "aws_and_b2_restore_paths_and_logical_sizes_identical": true,
+    "backup_source_path_sets_match_both_restore_path_sets": true
+  },
+  "logical_package_bytes": 12074083151,
+  "logical_package_files": 32,
+  "owner_attestation": "Owner reports complete copies on three PCs and one external device in addition to AWS and Backblaze B2.",
+  "package_sha256sums_sha256": "deec38be4eb295aa6594732bfb92a9a00b5e50f19d4e8ec903655e3699aca50c",
+  "restore_inventory_bytes_including_verify_pass_png": 12074156520,
+  "restore_inventory_files_including_verify_pass_png": 33,
+  "review_date": "2026-08-13",
+  "schema": "filiolae.r18-preservation-acceptance-package.v1",
+  "source_evidence_sha256": {
+    "aws-backup-plan.jpg": "16dcdd904927a15d82ddf629212265b737b91989ab7de9c19a7a21b59e85691c",
+    "aws-backup-report.csv": "fb737993f7c7c6e57fb399c6f79e46949a266f84c843fcadca2ed6832bb79c0d",
+    "aws-restore-report.csv": "1cd550d5e87051c92ad8dcf01176b1e813a38e7c8317cad625023a0b88ad2b6d",
+    "aws-restore-verify.jpg": "6031bbb2495d903c38e8850705da9957bfd98154ef805798951bfdeae2504681",
+    "b2-backup-plan.jpg": "74bb69c8971c8805e3eceb43350741883ca6f634f85b08b529c9fd02b0d3b408",
+    "b2-backup-report.csv": "7d1f07d9b59b3fc98fc6baab7042661c4b0d416899250c959ef3fe803a154c28",
+    "b2-restore-report.csv": "8de34fbe7896a14731d1f62608b7fd803e8a0d9ffc13a519e70146046837ff70",
+    "b2-restore-verify.jpg": "454120e348b71b942d1e9bde4250e2f56cb1f201c57d56d97cf258c645c582b1"
+  }
+}

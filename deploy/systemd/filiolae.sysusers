@@ -1,0 +1,6 @@
+# Install as /usr/lib/sysusers.d/filiolae.conf, then run systemd-sysusers.
+g filiolae-ledger -
+u filiolae-witness - "Filiolae Ledger witness" /var/lib/filiolae-witness /usr/sbin/nologin
+u filiolae-orchestrator - "Filiolae governed orchestrator" /nonexistent /usr/sbin/nologin
+m filiolae-witness filiolae-ledger
+m filiolae-orchestrator filiolae-ledger

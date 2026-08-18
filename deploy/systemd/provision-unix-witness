@@ -1,0 +1,162 @@
+#!/bin/sh
+# Root provisioning/validation for the fixed-layout example units. No secrets are read into shell vars.
+set -eu
+
+usage() {
+    echo "usage: $0 {provision|validate|uninstall} RUN_ID | $0 enroll RUN_ID CHARTER" >&2
+    exit 64
+}
+[ "$#" -ge 2 ] && [ "$#" -le 3 ] || usage
+action=$1
+run_id=$2
+if [ "$action" = enroll ]; then
+    [ "$#" -eq 3 ] || usage
+    charter=$3
+else
+    [ "$#" -eq 2 ] || usage
+fi
+case "$run_id" in
+    ''|*[!A-Za-z0-9_.-]*|.*|-*) echo "unsafe RUN_ID: $run_id" >&2; exit 64 ;;
+esac
+[ "$(id -u)" -eq 0 ] || { echo "must run as root" >&2; exit 77; }
+
+witness_user=filiolae-witness
+orchestrator_user=filiolae-orchestrator
+shared_group=filiolae-ledger
+wuid=$(id -u "$witness_user")
+ouid=$(id -u "$orchestrator_user")
+gid=$(getent group "$shared_group" | awk -F: '{print $3}')
+[ -n "$gid" ] || { echo "missing $shared_group" >&2; exit 1; }
+[ "$wuid" != "$ouid" ] || { echo "witness and orchestrator UIDs must differ" >&2; exit 1; }
+id -nG "$witness_user" | tr ' ' '\n' | grep -Fxq "$shared_group"
+id -nG "$orchestrator_user" | tr ' ' '\n' | grep -Fxq "$shared_group"
+
+lock_dir=/run/filiolae-locks/$run_id
+lock=$lock_dir/ledger.lock
+output=/srv/filiolae/runs/$run_id
+anchors=/var/lib/filiolae-witness/$run_id
+mirror=/var/lib/filiolae-gate-mirrors/$run_id
+wenv=/etc/filiolae-witness/runs/$run_id.env
+oenv=/etc/filiolae/orchestrator/$run_id.env
+tmpfiles=/etc/tmpfiles.d/filiolae-$run_id.conf
+enrollment=$anchors/enrollment.json
+charter_target=/etc/filiolae/orchestrator/$run_id.charter.yaml
+
+assert_stat() {
+    expected=$1 path=$2
+    actual=$(stat -Lc '%F:%a:%u:%g' -- "$path")
+    [ "$actual" = "$expected" ] || {
+        echo "unsafe metadata for $path: got $actual, expected $expected" >&2
+        return 1
+    }
+    [ ! -L "$path" ] || { echo "symlink forbidden: $path" >&2; return 1; }
+}
+
+case "$action" in
+provision)
+    [ ! -e "$enrollment" ] || {
+        echo "run is already enrolled; use validate instead of reprovisioning" >&2; exit 1;
+    }
+    [ -f /etc/filiolae-witness/ed25519-private.pem ] || {
+        echo "install the witness private key before provisioning (see docs/unix-witness.md)" >&2; exit 1;
+    }
+    [ -f /etc/filiolae/ed25519-public.pem ] || {
+        echo "install the pinned public key before provisioning (see docs/unix-witness.md)" >&2; exit 1;
+    }
+    assert_stat "regular file:600:$wuid:$wuid" /etc/filiolae-witness/ed25519-private.pem
+    assert_stat "regular file:644:0:0" /etc/filiolae/ed25519-public.pem
+    install -d -o root -g "$shared_group" -m 0750 "$lock_dir"
+    install -d -o "$orchestrator_user" -g "$shared_group" -m 0750 "$output"
+    install -d -o "$witness_user" -g "$witness_user" -m 0700 "$anchors"
+    install -d -o "$orchestrator_user" -g "$orchestrator_user" -m 0700 "$mirror"
+    umask 077
+    t=$(mktemp)
+    trap 'rm -f "$t"' EXIT HUP INT TERM
+    cat >"$t" <<EOF
+d $lock_dir 0750 root $shared_group -
+f $lock 0660 root $shared_group -
+d $output 0750 $orchestrator_user $shared_group -
+d $anchors 0700 $witness_user $witness_user -
+d $mirror 0700 $orchestrator_user $orchestrator_user -
+EOF
+    install -o root -g root -m 0644 "$t" "$tmpfiles"
+    # install -d above created every current-boot directory. Create the lock exactly once here;
+    # the retained tmpfiles fragment recreates it only after a later boot if /run was cleared.
+    /usr/bin/env filiolae ledger-lock-provision "$lock" --mode 0660 --gid "$gid" >/dev/null
+    printf 'FILIOLAE_ORCHESTRATOR_UID=%s\nFILIOLAE_LEDGER_SHARED_GID=%s\n' "$ouid" "$gid" >"$t"
+    install -o root -g "$witness_user" -m 0640 "$t" "$wenv"
+    printf 'FILIOLAE_LEDGER_SHARED_GID=%s\n' "$gid" >"$t"
+    install -o root -g "$orchestrator_user" -m 0640 "$t" "$oenv"
+    systemctl daemon-reload
+    echo "provisioned $run_id; install /etc/filiolae/orchestrator/$run_id.toml, then start filiolae-orchestrator@$run_id"
+    ;;
+enroll)
+    [ -f "$charter" ] && [ ! -L "$charter" ] || {
+        echo "Charter must be a real readable file: $charter" >&2; exit 1;
+    }
+    [ ! -e "$enrollment" ] || {
+        echo "enrollment already exists; replay or conflict rejected" >&2; exit 1;
+    }
+    [ ! -e "$output/control/filiolae/ledger.jsonl" ] || {
+        echo "refusing retroactive enrollment after Ledger creation" >&2; exit 1;
+    }
+    systemctl is-active --quiet "filiolae-witness@$run_id.service" && {
+        echo "stop the witness before enrollment" >&2; exit 1;
+    }
+    systemctl is-active --quiet "filiolae-orchestrator@$run_id.service" && {
+        echo "stop the orchestrator before enrollment" >&2; exit 1;
+    }
+    install -o root -g "$orchestrator_user" -m 0640 "$charter" "$charter_target"
+    result=$(/usr/bin/env filiolae anchor-witness-enroll \
+        "$output/control/filiolae/ledger.jsonl" \
+        --charter "$charter_target" \
+        --run-id "$run_id" \
+        --public-key /etc/filiolae/ed25519-public.pem \
+        --enrollment "$enrollment")
+    digest=$(printf '%s' "$result" | \
+        python3 -c 'import json, sys; print(json.load(sys.stdin)["enrollment_sha256"])')
+    case "$digest" in
+        *[!0-9a-f]*|'') echo "invalid enrollment digest" >&2; exit 1 ;;
+    esac
+    [ "${#digest}" -eq 64 ] || { echo "invalid enrollment digest length" >&2; exit 1; }
+    chown "$witness_user:$witness_user" "$enrollment"
+    chmod 0600 "$enrollment"
+    t=$(mktemp)
+    trap 'rm -f "$t"' EXIT HUP INT TERM
+    printf 'FILIOLAE_LEDGER_SHARED_GID=%s\nFILIOLAE_WITNESS_ENROLLMENT_SHA256=%s\nFILIOLAE_CHARTER=%s\n' \
+        "$gid" "$digest" "$charter_target" >"$t"
+    install -o root -g "$orchestrator_user" -m 0640 "$t" "$oenv"
+    echo "enrolled $run_id with manifest sha256 $digest; review it before service start"
+    ;;
+validate)
+    assert_stat "regular file:600:$wuid:$wuid" /etc/filiolae-witness/ed25519-private.pem
+    assert_stat "regular file:644:0:0" /etc/filiolae/ed25519-public.pem
+    assert_stat "directory:750:0:$gid" "$lock_dir"
+    assert_stat "regular empty file:660:0:$gid" "$lock" || assert_stat "regular file:660:0:$gid" "$lock"
+    assert_stat "directory:750:$ouid:$gid" "$output"
+    assert_stat "directory:700:$wuid:$wuid" "$anchors"
+    assert_stat "directory:700:$ouid:$ouid" "$mirror"
+    assert_stat "regular file:600:$wuid:$wuid" "$enrollment"
+    assert_stat "regular file:640:0:$ouid" "$charter_target"
+    assert_stat "regular file:640:0:$wuid" "$wenv"
+    assert_stat "regular file:640:0:$ouid" "$oenv"
+    grep -Eq '^FILIOLAE_WITNESS_ENROLLMENT_SHA256=[0-9a-f]{64}$' "$oenv"
+    if [ -e "$output/control/filiolae/ledger.jsonl" ]; then
+        assert_stat "regular file:640:$ouid:$gid" "$output/control/filiolae/ledger.jsonl"
+    fi
+    if systemctl is-active --quiet "filiolae-witness@$run_id.service"; then
+        assert_stat "socket:660:$wuid:$gid" "/run/filiolae-witness/$run_id.sock"
+    fi
+    systemctl show "filiolae-orchestrator@$run_id.service" -p User -p Group -p KillMode -p ControlGroup --no-pager
+    systemctl show "filiolae-witness@$run_id.service" -p User -p Group -p KillMode -p ControlGroup --no-pager
+    echo "deployment metadata valid for $run_id"
+    ;;
+uninstall)
+    systemctl disable --now "filiolae-orchestrator@$run_id.service" "filiolae-witness@$run_id.service" 2>/dev/null || true
+    rm -f -- "$wenv" "$oenv" "$tmpfiles" "/run/filiolae-witness/$run_id.sock"
+    rm -rf -- "$lock_dir"
+    systemctl daemon-reload
+    echo "units/config disabled; evidence retained at $output, $anchors, and $mirror"
+    ;;
+*) usage ;;
+esac

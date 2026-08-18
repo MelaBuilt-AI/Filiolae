@@ -1,0 +1,18 @@
+version: 1
+clauses:
+  - id: C-DEMO-001
+    severity: hard
+    statement: Ledgered artifacts are immutable after attestation.
+    rule: immutable_artifacts
+    parameters: {}
+  - id: C-DEMO-002
+    severity: hard
+    statement: Every policy promotion requires config, rollout, evaluation, and checkpoint evidence.
+    rule: promotion_evidence_required
+    parameters:
+      events: [config.resolved, batch.committed, source_eval.result, weights.published]
+  - id: C-DEMO-003
+    severity: hard
+    statement: Any Ledger or artifact integrity failure freezes the run.
+    rule: freeze_on_integrity_failure
+    parameters: {}

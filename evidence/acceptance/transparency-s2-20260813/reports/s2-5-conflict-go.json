@@ -1,0 +1,6 @@
+{
+  "schema": "filiolae.transparency-s2-monitor-report.v1",
+  "monitor": "independent-go",
+  "status": "suspect",
+  "reason": "previously immutable resource changed"
+}

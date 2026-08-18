@@ -1,0 +1,3 @@
+*.patch -whitespace
+evidence/acceptance/transparency-s2-20260813/socket-*.txt -whitespace
+evidence/acceptance/r18-preservation-20260813/*.csv -text -whitespace

@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "entry": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "enum": [
+            "voluntary",
+            "contract-required"
+          ]
+        },
+        "entry_id": {
+          "pattern": "^[a-z0-9][a-z0-9-]{2,63}$",
+          "type": "string"
+        },
+        "first_use_month": {
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+          "type": "string"
+        },
+        "last_updated": {
+          "format": "date",
+          "type": "string"
+        },
+        "license_path": {
+          "enum": [
+            "AGPL-3.0-only",
+            "commercial"
+          ]
+        },
+        "organization": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": "string"
+        },
+        "scope": {
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        "statement_url": {
+          "format": "uri",
+          "pattern": "^https://",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "evaluation",
+            "research",
+            "pilot",
+            "deployment",
+            "discontinued"
+          ]
+        },
+        "version_or_commit": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "entry_id",
+        "organization",
+        "status",
+        "license_path",
+        "version_or_commit",
+        "first_use_month",
+        "scope",
+        "statement_url",
+        "last_updated",
+        "basis"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/MelaBuilt-AI/Filiolae/blob/main/adoption/registry.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/entry"
+      },
+      "type": "array"
+    },
+    "schema": {
+      "const": "filiolae.adoption-registry.v1"
+    },
+    "updated": {
+      "format": "date",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "updated",
+    "entries"
+  ],
+  "title": "Filiolae public adoption registry",
+  "type": "object"
+}

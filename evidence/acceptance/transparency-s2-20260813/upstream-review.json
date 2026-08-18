@@ -1,0 +1,13 @@
+{
+  "boundary": "bounded synthetic loopback lab, not production",
+  "github_security_advisories": [],
+  "govulncheck": "0 called-symbol vulnerabilities; 1 imported-package and 23 required-module advisories not reached by the S2 call graph; see retained verbose report",
+  "latest_release_at_execution": "v1.0.4",
+  "license": "Apache-2.0",
+  "release_published_at": "2026-07-16T13:09:33Z",
+  "schema": "filiolae.transparency-s2-upstream-review.v1",
+  "tag_commit_signed": false,
+  "tag_commit_verification_reason": "unsigned",
+  "tessera_commit": "6bca8e8d5e23c9941f2b8a08f512b373f7131730",
+  "tessera_release": "v1.0.4"
+}

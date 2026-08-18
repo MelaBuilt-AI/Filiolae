@@ -1,0 +1,31 @@
+version: 1
+clauses:
+  - id: C-IMMUTABLE
+    severity: hard
+    statement: Retained artifacts are immutable.
+    rule: immutable_artifacts
+    parameters: {}
+  - id: C-EVIDENCE
+    severity: hard
+    statement: Promotions require lineage evidence.
+    rule: promotion_evidence_required
+    parameters:
+      events: [config.resolved, batch.committed, source_eval.result, weights.published]
+  - id: C-FREEZE
+    severity: hard
+    statement: Integrity failures freeze.
+    rule: freeze_on_integrity_failure
+    parameters: {}
+  - id: C-SHADOW
+    severity: hard
+    statement: Candidates require signed paired shadow evaluation.
+    rule: candidate_shadow_evaluation
+    parameters:
+      evaluator_sha256: a9bd47e20e3a16c26063280254ed4db03d3e4d3d0afc47e3000dc7c9b3bfd3fb
+      suite_sha256: 0591f3adb136e12980e3f52194283f6305d715120fc65d41d7176377a76914f8
+      config_sha256: ff6c314724c75b88cb68cd652d1564dc255102e1c98cf6bf3f0edddb383b0403
+      source_policy_sha256: f8caba475e7f10fe754328ad3dc52ba25a99fc99b7ce130d967d7e539e0ec42b
+      evaluator_signer_key_id: sha256:257b413b622dc4cfaa5d77ce65d05d2d17cd9fd076c0ab9282ab87c1855dc098
+      minimum_quality_bps: 9000
+      maximum_regression_bps: 0
+      maximum_receipt_age_seconds: 300

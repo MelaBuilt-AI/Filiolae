@@ -1,0 +1,281 @@
+diff --git a/src/prime_rl/entrypoints/rl.py b/src/prime_rl/entrypoints/rl.py
+index 279f91e00..ecce90e73 100644
+--- a/src/prime_rl/entrypoints/rl.py
++++ b/src/prime_rl/entrypoints/rl.py
+@@ -281,7 +281,8 @@ def rl_local(config: RLConfig):
+             monitor_thread.start()
+             monitor_threads.append(monitor_thread)
+ 
+-        orchestrator_cmd = ["orchestrator", "@", (config_dir / ORCHESTRATOR_TOML).as_posix()]
++        orchestrator_entrypoint = os.environ.get("PRIME_RL_ORCHESTRATOR_ENTRYPOINT", "orchestrator")
++        orchestrator_cmd = [orchestrator_entrypoint, "@", (config_dir / ORCHESTRATOR_TOML).as_posix()]
+         logger.info("Starting orchestrator process")
+         logger.debug(f"Orchestrator start command: {' '.join(orchestrator_cmd)}")
+         with open(log_dir / "orchestrator.log", "w") as log_file:
+diff --git a/src/prime_rl/orchestrator/orchestrator.py b/src/prime_rl/orchestrator/orchestrator.py
+index 381e37aec..e68063530 100644
+--- a/src/prime_rl/orchestrator/orchestrator.py
++++ b/src/prime_rl/orchestrator/orchestrator.py
+@@ -60,6 +60,7 @@ from prime_rl.orchestrator.types import (
+     EvalBatch,
+     Policy,
+     Progress,
++    PromotionBarrier,
+     Rollout,
+     TrainBatch,
+ )
+@@ -111,6 +112,11 @@ TARGET_LAG = 1
+ # broadcast is always coming, so wait rather than fail immediately.
+ STARTUP_WEIGHT_WAIT_TIMEOUT_S = 1200
+ 
++# A filesystem trainer can finish its final broadcasts after the rollout loop
++# drains. Governed runs must not report success before every expected version
++# has crossed the mandatory promotion barrier.
++FINAL_POLICY_WAIT_TIMEOUT_S = 600
++
+ 
+ class Orchestrator:
+     # Set in ``__init__``
+@@ -151,8 +157,9 @@ class Orchestrator:
+     resume_step: int | None
+     lag_task: asyncio.Task | None
+ 
+-    def __init__(self, config: OrchestratorConfig) -> None:
++    def __init__(self, config: OrchestratorConfig, *, promotion_barrier: PromotionBarrier) -> None:
+         self.config = config
++        self.promotion_barrier = promotion_barrier
+         setup_logger(config.log.level, json_logging=config.log.json_logging)
+         # Route the in-process v1 library logging through our handler. The
+         # env server runs in a child process, so its logging is separate.
+@@ -421,6 +428,7 @@ class Orchestrator:
+             policy=self.policy,
+             inference=self.policy_inference,
+             observers=[self.dispatcher, self],
++            promotion_barrier=self.promotion_barrier,
+             lora_name=self.lora_name,
+             ckpt_step=self.policy.version,
+             model_express=self.model_express,
+@@ -485,7 +493,21 @@ class Orchestrator:
+         # logs a forced-cleanup warning instead of a clean-exit success.
+         clean_exit = False
+         try:
+-            await self.main_loop()
++            main_task = asyncio.create_task(self.main_loop(), name="orchestrator_main_loop")
++            done, _ = await asyncio.wait(
++                {main_task, *self.component_tasks}, return_when=asyncio.FIRST_COMPLETED
++            )
++            if main_task not in done:
++                failed_task = next(iter(done))
++                await safe_cancel(main_task)
++                if failed_task.cancelled():
++                    raise RuntimeError(f"critical component task cancelled: {failed_task.get_name()}")
++                error = failed_task.exception()
++                if error is None:
++                    raise RuntimeError(f"critical component task exited early: {failed_task.get_name()}")
++                raise RuntimeError(f"critical component task failed: {failed_task.get_name()}") from error
++            await main_task
++            await self.wait_for_final_filesystem_policy()
+             clean_exit = True
+         finally:
+             elapsed = format_time(time.perf_counter() - start_time)
+@@ -508,6 +530,33 @@ class Orchestrator:
+                 get_logger().warning("Orchestrator cleanup complete (forced).")
+             trim_process_memory()
+ 
++    async def wait_for_final_filesystem_policy(self) -> None:
++        """Keep the mandatory watcher live until every filesystem version is promoted."""
++        target = self.config.max_steps
++        if self.config.weight_broadcast.type != "filesystem" or target is None:
++            return
++        get_logger().info(f"Waiting for governed policy promotions through step {target}")
++        deadline = asyncio.get_running_loop().time() + FINAL_POLICY_WAIT_TIMEOUT_S
++        while self.policy.version < target:
++            watcher_task = self.watcher.task
++            if watcher_task is None or watcher_task.done():
++                if watcher_task is not None and not watcher_task.cancelled():
++                    error = watcher_task.exception()
++                    if error is not None:
++                        raise RuntimeError("weight watcher failed before final governed promotion") from error
++                raise RuntimeError("weight watcher exited before final governed promotion")
++            remaining = deadline - asyncio.get_running_loop().time()
++            if remaining <= 0:
++                raise TimeoutError(f"timed out waiting for governed policy v{target}; current v{self.policy.version}")
++            self.version_advanced.clear()
++            if self.policy.version >= target:
++                break
++            try:
++                await asyncio.wait_for(self.version_advanced.wait(), timeout=min(1.0, remaining))
++            except TimeoutError:
++                pass
++        get_logger().success(f"Governed policy promotions reached step {target}")
++
+     async def main_loop(self) -> None:
+         """Consume episodes (``list[Rollout]``) from the dispatcher and route them
+         to the train / eval sink. Both sinks return a finalized batch (or
+@@ -942,17 +991,16 @@ class Orchestrator:
+             gate.set()
+ 
+     async def on_version_pending(self, step: int) -> None:
+-        """``VersionObserver`` hook, fired at publish confirmation (pre-apply):
+-        ``policy.version`` already carries the new version, so wake a held ship."""
++        """Telemetry hook fired after authorization but before the weight load."""
+         if self.model_express is not None:
+             await asyncio.to_thread(self.model_express.set_status, p2p_pb2.SOURCE_STATUS_READY)
+-        self.version_advanced.set()
+ 
+     async def on_new_version(self, step: int) -> None:
+-        """``VersionObserver`` hook: the weight update completed;
+-        re-evaluate the dispatch gate (may resume if the trainer caught up)."""
++        """``VersionObserver`` hook: the authorized weight update completed;
++        wake held ships and re-evaluate the dispatch gate."""
+         if self.model_express is not None:
+             await asyncio.to_thread(self.model_express.set_status, p2p_pb2.SOURCE_STATUS_INITIALIZING)
++        self.version_advanced.set()
+         self.update_dispatch_gate()
+ 
+     async def stop(self) -> None:
+@@ -993,7 +1041,7 @@ class Orchestrator:
+                 f"Orchestrator shutdown did not complete within {SHUTDOWN_TIMEOUT_S}s; "
+                 "forcing process exit. Training artifacts are already persisted."
+             )
+-            os._exit(0)
++            os._exit(1)
+         await task
+ 
+ 
+diff --git a/src/prime_rl/orchestrator/types.py b/src/prime_rl/orchestrator/types.py
+index 65c56d318..7c1e6cf59 100644
+--- a/src/prime_rl/orchestrator/types.py
++++ b/src/prime_rl/orchestrator/types.py
+@@ -4,6 +4,7 @@ from __future__ import annotations
+ 
+ import uuid
+ from dataclasses import dataclass
++from pathlib import Path
+ from typing import TYPE_CHECKING, Generic, Literal, Protocol
+ 
+ import verifiers.v1 as vf
+@@ -163,6 +164,20 @@ class EvalBatch:
+     rollouts: EvalRollouts
+ 
+ 
++class PromotionBarrier(Protocol):
++    """Mandatory fail-closed authorization barrier for governed policy updates."""
++
++    async def authorize_version(
++        self, step: int, current_policy_version: int, weights_path: Path | None
++    ) -> Path: ...
++
++    async def record_outcome(self, step: int, *, success: bool, error: str | None = None) -> None: ...
++
++    async def freeze_fatal(
++        self, step: int, current_policy_version: int, error: BaseException
++    ) -> None: ...
++
++
+ class VersionObserver(Protocol):
+     """Notified around each policy update; walked by the watcher.
+ 
+diff --git a/src/prime_rl/orchestrator/watcher.py b/src/prime_rl/orchestrator/watcher.py
+index d660cd80b..445aab79a 100644
+--- a/src/prime_rl/orchestrator/watcher.py
++++ b/src/prime_rl/orchestrator/watcher.py
+@@ -10,7 +10,7 @@ import time
+ from modelexpress import p2p_pb2
+ 
+ from prime_rl.configs.orchestrator import OrchestratorConfig
+-from prime_rl.orchestrator.types import Policy, VersionObserver
++from prime_rl.orchestrator.types import Policy, PromotionBarrier, VersionObserver
+ from prime_rl.trainer.rl.broadcast.nixl.model_express import ModelExpressSession
+ from prime_rl.utils.async_utils import safe_cancel
+ from prime_rl.utils.client import InferencePool
+@@ -29,6 +29,7 @@ class WeightWatcher:
+         policy: Policy,
+         inference: InferencePool,
+         observers: list[VersionObserver],
++        promotion_barrier: PromotionBarrier,
+         lora_name: str | None,
+         ckpt_step: int = 0,
+         poll_interval: float = 1.0,
+@@ -38,6 +39,7 @@ class WeightWatcher:
+         self.policy = policy
+         self.inference = inference
+         self.observers = observers
++        self.promotion_barrier = promotion_barrier
+         self.lora_name = lora_name
+         self.ckpt_step = ckpt_step
+         self.poll_interval = poll_interval
+@@ -109,12 +111,22 @@ class WeightWatcher:
+                     await wait_for_path(stable_marker)
+             self.last_wait_for_ckpt_time = time.perf_counter() - t0
+ 
+-            # Publish confirmed: the policy version advances here, before the
+-            # apply — inference pauses during the update, so nothing can generate
+-            # under the new number from the old weights, and a ship held on this
+-            # version releases without waiting out the inference weight reload.
+-            self.ckpt_step = next_step
+-            self.policy.version = next_step
++            # The stock VersionObserver is telemetry-only and fail-open. Governed
++            # mode therefore requires a separate, non-swallowing authorization
++            # barrier before observers, state mutation, or weight loading.
++            try:
++                approved_weights_path = await asyncio.wait_for(
++                    self.promotion_barrier.authorize_version(
++                        next_step, self.policy.version, weights_path
++                    ),
++                    timeout=600,
++                )
++            except BaseException as exc:
++                self.stopped.set()
++                await asyncio.shield(
++                    self.promotion_barrier.freeze_fatal(next_step, self.policy.version, exc)
++                )
++                raise
+ 
+             # Drain off-policy rollouts BEFORE pausing the inference engines.
+             # Aborting a rollout triggers vLLM's KV-connector cleanup (NIXL's
+@@ -134,10 +146,42 @@ class WeightWatcher:
+                         f"Observer {type(observer).__name__}.on_version_pending({next_step}) raised: {exc!r}"
+                     )
+ 
+-            get_logger().debug(f"Updating weights to step {next_step}")
++            get_logger().debug(f"Updating weights to authorized step {next_step}")
+             t1 = time.perf_counter()
+-            await self.inference.update_weights(weights_path, lora_name=self.lora_name, step=next_step)
++            try:
++                await self.inference.update_weights(
++                    approved_weights_path, lora_name=self.lora_name, step=next_step
++                )
++            except BaseException as exc:
++                self.stopped.set()
++                try:
++                    await asyncio.wait_for(
++                        self.promotion_barrier.record_outcome(
++                            next_step, success=False, error=repr(exc)
++                        ),
++                        timeout=600,
++                    )
++                finally:
++                    await asyncio.shield(
++                        self.promotion_barrier.freeze_fatal(next_step, self.policy.version, exc)
++                    )
++                raise
+             self.last_update_weights_time = time.perf_counter() - t1
++            try:
++                await asyncio.wait_for(
++                    self.promotion_barrier.record_outcome(next_step, success=True),
++                    timeout=600,
++                )
++            except BaseException as exc:
++                # The new bytes may be live but the durable outcome is ambiguous.
++                # Freeze and require external-supervisor shutdown/reconciliation.
++                self.stopped.set()
++                await asyncio.shield(
++                    self.promotion_barrier.freeze_fatal(next_step, self.policy.version, exc)
++                )
++                raise
++            self.ckpt_step = next_step
++            self.policy.version = next_step
+             self.update_count += 1
+             get_logger().debug(f"Updated weights to step {next_step} in {format_time(self.last_update_weights_time)}")
+ 

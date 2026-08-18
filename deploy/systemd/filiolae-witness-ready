@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+socket=$1
+timeout=$2
+end=$(( $(date +%s) + timeout ))
+while [ "$(date +%s)" -le "$end" ]; do
+    [ -S "$socket" ] && exit 0
+    sleep 0.05
+done
+echo "witness socket did not become ready: $socket" >&2
+exit 1

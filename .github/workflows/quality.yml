@@ -1,0 +1,192 @@
+name: quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - name: Install locked Python ${{ matrix.python }} environment
+        run: |
+          uv python install "${{ matrix.python }}"
+          uv sync --locked --group dev --python "${{ matrix.python }}"
+          uv lock --check
+      - name: Lint and format
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+      - name: Test with coverage floor
+        run: uv run pytest --cov=filiolae --cov-report=term --cov-fail-under=80
+
+  build-and-patch:
+    needs: quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - name: Install locked build environment
+        run: |
+          uv python install 3.11
+          uv sync --locked --group dev --python 3.11
+          uv lock --check
+      - name: Audit technical publication surface
+        run: uv run python scripts/release_preflight.py --scope technical
+      - name: Build and validate reproducible distributions
+        run: |
+          uv build
+          mkdir /tmp/filiolae-first-build
+          cp dist/*.whl dist/*.tar.gz /tmp/filiolae-first-build/
+          rm -rf dist
+          uv build
+          cmp dist/filiolae-*.whl /tmp/filiolae-first-build/filiolae-*.whl
+          cmp dist/filiolae-*.tar.gz /tmp/filiolae-first-build/filiolae-*.tar.gz
+          uv run twine check dist/*
+          if tar -tzf dist/*.tar.gz | grep -E '/\.(github|obsidian)/|/\.coverage$'; then
+            echo "forbidden private/build file included in sdist" >&2
+            exit 1
+          fi
+          sha256sum dist/*.whl dist/*.tar.gz | tee dist/SHA256SUMS
+      - name: Verify wheel in a fresh environment
+        run: |
+          uv venv --python 3.11 /tmp/filiolae-wheel-check
+          uv pip install --python /tmp/filiolae-wheel-check/bin/python dist/*.whl
+          cd /tmp
+          /tmp/filiolae-wheel-check/bin/python -c             'import filiolae; from filiolae.anchor import AnchorStore'
+          /tmp/filiolae-wheel-check/bin/filiolae --version
+          /tmp/filiolae-wheel-check/bin/filiolae --help
+      - name: Validate pinned prime-rl patch
+        env:
+          PRIME_RL_SHA: 60bc29547a8824ad1de7b9af8d265e2b27b2a72d
+        run: |
+          git init /tmp/prime-rl
+          git -C /tmp/prime-rl remote add origin https://github.com/PrimeIntellect-ai/prime-rl.git
+          git -C /tmp/prime-rl fetch --depth=1 origin "$PRIME_RL_SHA"
+          git -C /tmp/prime-rl checkout --detach FETCH_HEAD
+          test "$(git -C /tmp/prime-rl rev-parse HEAD)" = "$PRIME_RL_SHA"
+          git -C /tmp/prime-rl apply --check "$GITHUB_WORKSPACE/adapters/prime-rl-v0.8.0-fail-closed.patch"
+          git -C /tmp/prime-rl apply "$GITHUB_WORKSPACE/adapters/prime-rl-v0.8.0-fail-closed.patch"
+          uv run python -m py_compile             /tmp/prime-rl/src/prime_rl/entrypoints/rl.py             /tmp/prime-rl/src/prime_rl/orchestrator/types.py             /tmp/prime-rl/src/prime_rl/orchestrator/watcher.py             /tmp/prime-rl/src/prime_rl/orchestrator/orchestrator.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: filiolae-distributions
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
+
+  candidate-evaluator-boundary:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - name: Install locked Python 3.12 environment
+        run: |
+          uv python install 3.12
+          uv sync --locked --group dev --python 3.12
+          uv lock --check
+      - name: Build evaluator wheel for an immutable runtime copy
+        run: uv build --wheel --out-dir /tmp/filiolae-p6-evaluator-wheel
+      - name: Run separate-UID candidate-evaluator CPU rehearsal
+        run: |
+          sudo ops/candidate-eval/run_separate_uid_rehearsal.sh \
+            "$GITHUB_WORKSPACE" \
+            "$(command -v uv)" \
+            /tmp/filiolae-p6-evaluator-wheel/filiolae-0.1.0-py3-none-any.whl
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: candidate-evaluator-separate-uid-summary
+          path: /tmp/filiolae-p6-separate-uid-summary.json
+          if-no-files-found: error
+          retention-days: 14
+
+  priority-6-v2-distinct-uid:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - name: Install locked Python 3.12 environment
+        run: |
+          uv python install 3.12
+          uv sync --locked --group dev --python 3.12
+          uv lock --check
+      - name: Build evaluator wheel for immutable distinct-UID runtimes
+        run: uv build --wheel --out-dir /tmp/filiolae-p6-v2-evaluator-wheel
+      - name: Run Priority 6 v2 external-terminal distinct-UID fixture acceptance
+        run: |
+          sudo ops/priority-6-v2/run_distinct_uid_acceptance.sh \
+            "$GITHUB_WORKSPACE" \
+            "$(command -v uv)" \
+            /tmp/filiolae-p6-v2-evaluator-wheel/filiolae-0.1.0-py3-none-any.whl
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: priority-6-v2-distinct-uid-fixture-evidence
+          path: /tmp/filiolae-p6-v2-separate-uid-evidence
+          if-no-files-found: error
+          retention-days: 14
+
+  transparency-interop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.25.12"
+          cache-dependency-path: |
+            interop/go/go.sum
+            interop/s2/go.sum
+      - name: Fetch pinned independent implementations
+        working-directory: interop/go
+        run: go mod download
+      - name: Verify frozen vectors offline in Go
+        working-directory: interop/go
+        env:
+          GOMAXPROCS: "2"
+          GOPROXY: "off"
+          GOSUMDB: "off"
+        run: go test ./...
+      - name: Run bounded independent parser and proof fuzz smoke
+        working-directory: interop/go
+        env:
+          GOMAXPROCS: "2"
+          GOPROXY: "off"
+          GOSUMDB: "off"
+        run: |
+          go test -run='^$' -fuzz='^FuzzIndependentInclusionVerifier$' -fuzztime=1000x -parallel=1
+          go test -run='^$' -fuzz='^FuzzIndependentSignedNoteParser$' -fuzztime=1000x -parallel=1
+      - name: Fetch pinned S2 Tessera implementation
+        working-directory: interop/s2
+        run: go mod download
+      - name: Test and build S2 components offline
+        working-directory: interop/s2
+        env:
+          GOMAXPROCS: "2"
+          GOFLAGS: "-p=1"
+          GOPROXY: "off"
+          GOSUMDB: "off"
+        run: |
+          go mod verify
+          go test ./...
+          go build ./cmd/keygen ./cmd/personality ./cmd/monitor-go

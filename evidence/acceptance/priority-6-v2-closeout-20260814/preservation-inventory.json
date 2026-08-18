@@ -1,0 +1,84 @@
+{
+  "schema": "filiolae.priority6_v2.closeout_preservation.v2",
+  "recorded_at": "2026-08-14T14:12:01Z",
+  "archive": {
+    "filename": "gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz",
+    "size_bytes": 2385167636,
+    "sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab"
+  },
+  "method": {
+    "copy": "sequential temporary-path copies; no pre-existing destination; cp --reflink=never --sparse=never; hash before no-clobber publish",
+    "verification": "SHA-256 computed independently for source and both published copies after sync",
+    "mutation": "source was not replaced, renamed, extracted, or made writable"
+  },
+  "instances": [
+    {
+      "role": "original final Gate F runtime archive",
+      "storage_domain": "WSL ext4 root filesystem (/dev/sdd)",
+      "failure_independence": "original runtime location; same ext4 filesystem as the first archival duplicate",
+      "size_bytes": 2385167636,
+      "sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+      "mode_from_wsl": "0400",
+      "device": 2096,
+      "inode": 1274772,
+      "mtime": "2026-08-14T03:14:28.627541+00:00",
+      "locator": "<private-wsl-runtime>/gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz"
+    },
+    {
+      "role": "local archival duplicate outside transient control root",
+      "storage_domain": "WSL ext4 root filesystem (/dev/sdd)",
+      "failure_independence": "separate path/inode, but not filesystem- or device-independent from source",
+      "size_bytes": 2385167636,
+      "sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+      "mode_from_wsl": "0400",
+      "device": 2096,
+      "inode": 1273660,
+      "mtime": "2026-08-14T03:14:28.627541+00:00",
+      "locator": "<private-wsl-preservation>/gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz"
+    },
+    {
+      "role": "host-filesystem archival duplicate",
+      "storage_domain": "Windows C: NTFS exposed to WSL via v9fs",
+      "failure_independence": "separate host filesystem from WSL ext4/VHD; same physical workstation, so not off-device",
+      "size_bytes": 2385167636,
+      "sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+      "mode_from_wsl": "0555",
+      "device": 67,
+      "inode": 18014398509536082,
+      "mtime": "2026-08-14T03:14:28+00:00",
+      "locator": "<private-windows-evidence>/gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz"
+    }
+  ],
+  "claim_boundary": [
+    "Three exact local instances were directly hash-verified by the agent: original plus two no-overwrite copies.",
+    "An Owner-supplied PowerShell transcript reports an additional other-PC D: copy matching the expected SHA-256; the transcript is retained, but the agent did not directly access that archive.",
+    "Owner-supplied AWS backup/Object Lock/restore proof supports a cloud backup followed by an exact-size, exact-SHA-256 recovery; the agent retained and hashed the proof files but did not access the AWS object or restored archive directly.",
+    "No provider-independent disaster-recovery acceptance, AWS API retention-mode attestation, archive extraction, suite reuse, tuning, rerun, deployment, or promotion is claimed."
+  ],
+  "owner_supplied_external_verification": {
+    "received_at": "2026-08-14",
+    "evidence_file": "other-pc-d-drive-sha256.txt",
+    "evidence_file_sha256": "ea52cb86d932e8c77745309607884057fd06addb843cbcd8cdf5b829ac06cd22",
+    "reported_copy_path": "D:\\Filiolae-p6-v2-gate-f-acceptance\\gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz",
+    "algorithm": "SHA256",
+    "reported_archive_sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+    "matches_expected": true,
+    "evidence_boundary": "Owner-supplied PowerShell Get-FileHash transcript parsed and retained by the agent; the agent did not directly access or hash the remote D: archive.",
+    "source_file_sha256": "10b9d653a9e8d79869e6952df0120099a41ddbd7dcb82f737ea0daa8180dad72",
+    "normalization": "Retained copy uses LF line endings and removes trailing whitespace; source file digest is retained separately."
+  },
+  "owner_supplied_cloud_recovery_verification": {
+    "received_at": "2026-08-14",
+    "evidence_directory": "../priority-6-v2-aws-object-lock-restore-20260814",
+    "record_sha256": "bf0aabdd620609e6eb31b9a7c35bf2555b800ebe7cdb0ad7ade2abc635fa7aa7",
+    "reported_destination": "AWS S3 Immutable",
+    "reported_object_lock_enabled": true,
+    "reported_retention_days": 1095,
+    "reported_backup_success": true,
+    "reported_restore_success": true,
+    "reported_restored_size_bytes": 2385167636,
+    "reported_restored_sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+    "matches_expected": true,
+    "evidence_boundary": "Owner-supplied proof files retained and hashed by the agent; the agent did not directly access the AWS account/object/version or restored D: archive."
+  }
+}

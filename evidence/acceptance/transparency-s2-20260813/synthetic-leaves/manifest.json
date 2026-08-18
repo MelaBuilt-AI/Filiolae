@@ -1,0 +1,103 @@
+{
+  "count": 16,
+  "description": "Public deterministic synthetic test material; forbidden for production signing.",
+  "leaves": [
+    {
+      "filename": "00000000000000000000.leaf",
+      "index": 0,
+      "receipt_sha256": "7c1b14e3703434a8e76199f81b44bdce01e3015ffd359729eba6223be97cd656",
+      "sha256": "a4b554a4e5a22999d054c17888523ab259159782e78e8397822b84bfe53cd2fd"
+    },
+    {
+      "filename": "00000000000000000001.leaf",
+      "index": 1,
+      "receipt_sha256": "1fc45905a43e61bd54cd90f4cb5f8a7bbb0f1b35f485f553440dd4194348ea53",
+      "sha256": "d0a54bba62c8f598159a99d1259f2b628cf6ae3a100875aacc8d3d9702db6e41"
+    },
+    {
+      "filename": "00000000000000000002.leaf",
+      "index": 2,
+      "receipt_sha256": "9a09084f9c05a86b2c25fe4f39787d52fada077fe81239a5937a9d32a16dee83",
+      "sha256": "d63a1d2ed90e441c578fed4c47901573965ec48280cd3ccabd278c402680a7c5"
+    },
+    {
+      "filename": "00000000000000000003.leaf",
+      "index": 3,
+      "receipt_sha256": "b9eed86458fc5ef2ef0bfc4718a9519bc5dc28211121c785db3d01adef62a1ed",
+      "sha256": "dd2e14f44ab9408ed432cdaab80afb9ded41cc09354c84bc6425c4e3f2415531"
+    },
+    {
+      "filename": "00000000000000000004.leaf",
+      "index": 4,
+      "receipt_sha256": "e9b7c81945ecb522c6944e7e6ff09858c6779fffbb307aa324f45f2ca2b385e1",
+      "sha256": "12aeb676e9756e79869af133e6dd15900dcba10d765f3e8bb2ee28d6cefc5308"
+    },
+    {
+      "filename": "00000000000000000005.leaf",
+      "index": 5,
+      "receipt_sha256": "f0fd11597a83f1bff7901bab615215efbb23b062ea298b840cc32e705463209d",
+      "sha256": "e65d8686ec9b1ecc2dd9f7907ada807ac4315924ddc953f60b73a533cfe9ba4b"
+    },
+    {
+      "filename": "00000000000000000006.leaf",
+      "index": 6,
+      "receipt_sha256": "4eb594f70a30c412c109f12fa9315dd655a6e7ba90eeef35922d29a00c9414b9",
+      "sha256": "2635e54e8cccc5334cbaf613e433897c1b3765afc397630680b4e83bad8d43b9"
+    },
+    {
+      "filename": "00000000000000000007.leaf",
+      "index": 7,
+      "receipt_sha256": "b693942ff032a23dc222a2da8c87b66d687a44e35a7a754623cd1c164faee874",
+      "sha256": "194184cc81d13ddb5589bc9a680171d1c75741575ad9e662c8369b8edfca73fb"
+    },
+    {
+      "filename": "00000000000000000008.leaf",
+      "index": 8,
+      "receipt_sha256": "68a24602159245833d92c1a041412fa6f4be112976a6ffb3f4bc19e52b69bb5f",
+      "sha256": "596d44a4c42a03e43f0bdc5e5299d8c85621d50238932f3aa2ba898396fec0f6"
+    },
+    {
+      "filename": "00000000000000000009.leaf",
+      "index": 9,
+      "receipt_sha256": "07ea1719a4433e9cd59e580f971186a27d2bf88ca7e1846ca8ea889ca9f25b9d",
+      "sha256": "e66ed117adb3107390a33db5e71005c2006f08684f33e5f69b98a49e8b59bd47"
+    },
+    {
+      "filename": "00000000000000000010.leaf",
+      "index": 10,
+      "receipt_sha256": "c6c28f48999a67c8c710c23ff7dbd7c94bf68a23a6ca24b7d7426875bd6813ec",
+      "sha256": "ce838a1b612dabeea0ae0b05c6ff673c98100806c3e6848add7b0bf7ca854b40"
+    },
+    {
+      "filename": "00000000000000000011.leaf",
+      "index": 11,
+      "receipt_sha256": "1e69737c258ec43832a73a47646b3eee4c58e576c517e837616f2e7c7e568c09",
+      "sha256": "a9ea1206231fcc970bfbaa9db986b22a5c9e96e8fb56077338b1075bae27a69f"
+    },
+    {
+      "filename": "00000000000000000012.leaf",
+      "index": 12,
+      "receipt_sha256": "3528377984012353bc780d63d345baab20769cb576049ce8c466003b092bc0ad",
+      "sha256": "f1bcccae1fd03a14d2a8f133fbd00a224c4454cf06193d42f0c09d1ddee430d9"
+    },
+    {
+      "filename": "00000000000000000013.leaf",
+      "index": 13,
+      "receipt_sha256": "68a348ace172100f1f94f78b9d2adfe993500b98f71d5b01a3b58482d978a896",
+      "sha256": "23aedcc5b1ea5c373cdfa965e090c9eab304ebe23edc46d2fca2aa7a110ff85d"
+    },
+    {
+      "filename": "00000000000000000014.leaf",
+      "index": 14,
+      "receipt_sha256": "38e55ee7ea8d48b6bf884493544c7442d77e367702fa4d3413b706d2ddb4df44",
+      "sha256": "18e77c78476c6d8aab16e91b9b111ababb822a8ed981d878062c4616c6090004"
+    },
+    {
+      "filename": "00000000000000000015.leaf",
+      "index": 15,
+      "receipt_sha256": "908a2b69b5c8babda7dc77e77ff4d20ba3563c1ff6afa988782eba89db680614",
+      "sha256": "a9a034b989a9f42890d182934963a56dc00ca50bec06cb0f0c82957ac690c3ee"
+    }
+  ],
+  "schema": "filiolae.transparency-s2-synthetic-fixture.v1"
+}

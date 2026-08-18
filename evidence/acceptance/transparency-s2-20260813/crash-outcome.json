@@ -1,0 +1,9 @@
+{
+  "client": {
+    "error_type": "RemoteDisconnected",
+    "outcome": "unknown"
+  },
+  "final_size": 16,
+  "recovered_size": 15,
+  "schema": "filiolae.transparency-s2-crash-outcome.v1"
+}

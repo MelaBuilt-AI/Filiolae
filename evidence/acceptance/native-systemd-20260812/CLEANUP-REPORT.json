@@ -1,0 +1,10 @@
+{
+  "active_units": [],
+  "cgroup_processes": {},
+  "cgroup_scan_returncode": 0,
+  "completed_at": "2026-08-12T03:51:18.495464Z",
+  "harness_survivors": [],
+  "passed": true,
+  "private_key_present": false,
+  "started_at": "2026-08-12T03:51:18.244270Z"
+}

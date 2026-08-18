@@ -1,0 +1,414 @@
+{
+  "checks": [
+    {
+      "detail": "/proc/1/comm='systemd'",
+      "name": "systemd-pid-1",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0, type='cgroup2fs'",
+      "name": "unified-cgroup-v2-filesystem",
+      "passed": true
+    },
+    {
+      "detail": "cpuset cpu io memory hugetlb pids rdma misc dmem",
+      "name": "cgroup-v2-controllers",
+      "passed": true
+    },
+    {
+      "detail": "returncode=1, result='none'",
+      "name": "not-a-container",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0, result='microsoft'",
+      "name": "virtual-machine",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "passwordless-root",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-uname",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-os-release",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-systemd-version",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-mounts",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-cgroup-tree-before",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-disk",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "metadata-memory",
+      "passed": true
+    },
+    {
+      "detail": "MemAvailable=6865016 KiB",
+      "name": "minimum-memory",
+      "passed": true
+    },
+    {
+      "detail": "free_bytes=15067385856",
+      "name": "minimum-disk",
+      "passed": true
+    },
+    {
+      "detail": "actual='35529fec51727d360a77b41f56a19134cde94d80', expected='35529fec51727d360a77b41f56a19134cde94d80'",
+      "name": "exact-source-commit",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0",
+      "name": "transient-start-command",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0, state='active'",
+      "name": "transient-service-active",
+      "passed": true
+    },
+    {
+      "detail": "ControlGroup='/system.slice/filiolae-host-probe-1993.service', MainPID='2010', pids=['2010']",
+      "name": "observable-service-cgroup",
+      "passed": true
+    },
+    {
+      "detail": "returncode=0, bytes=121",
+      "name": "journald-evidence",
+      "passed": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "stat",
+        "-fc",
+        "%T",
+        "/sys/fs/cgroup"
+      ],
+      "elapsed_seconds": 0.002203,
+      "name": "cgroup-filesystem",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.244700Z",
+      "stderr_file": "commands/01-cgroup-filesystem.stderr.txt",
+      "stdout_file": "commands/01-cgroup-filesystem.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-detect-virt",
+        "--container"
+      ],
+      "elapsed_seconds": 0.002492,
+      "name": "container-virtualization",
+      "returncode": 1,
+      "started_at": "2026-08-12T03:49:10.247147Z",
+      "stderr_file": "commands/02-container-virtualization.stderr.txt",
+      "stdout_file": "commands/02-container-virtualization.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-detect-virt",
+        "--vm"
+      ],
+      "elapsed_seconds": 0.002354,
+      "name": "vm-virtualization",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.249771Z",
+      "stderr_file": "commands/03-vm-virtualization.stderr.txt",
+      "stdout_file": "commands/03-vm-virtualization.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "-n",
+        "true"
+      ],
+      "elapsed_seconds": 0.005743,
+      "name": "passwordless-sudo",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.252268Z",
+      "stderr_file": "commands/04-passwordless-sudo.stderr.txt",
+      "stdout_file": "commands/04-passwordless-sudo.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "elapsed_seconds": 0.001783,
+      "name": "uname",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.258165Z",
+      "stderr_file": "commands/05-uname.stderr.txt",
+      "stdout_file": "commands/05-uname.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "cat",
+        "/etc/os-release"
+      ],
+      "elapsed_seconds": 0.001824,
+      "name": "os-release",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.260078Z",
+      "stderr_file": "commands/06-os-release.stderr.txt",
+      "stdout_file": "commands/06-os-release.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "--version"
+      ],
+      "elapsed_seconds": 0.001889,
+      "name": "systemd-version",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.262021Z",
+      "stderr_file": "commands/07-systemd-version.stderr.txt",
+      "stdout_file": "commands/07-systemd-version.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "findmnt",
+        "--output",
+        "TARGET,SOURCE,FSTYPE,OPTIONS"
+      ],
+      "elapsed_seconds": 0.001509,
+      "name": "mounts",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.264032Z",
+      "stderr_file": "commands/08-mounts.stderr.txt",
+      "stdout_file": "commands/08-mounts.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-cgls",
+        "--all",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.02274,
+      "name": "cgroup-tree-before",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.265669Z",
+      "stderr_file": "commands/09-cgroup-tree-before.stderr.txt",
+      "stdout_file": "commands/09-cgroup-tree-before.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "df",
+        "-hT",
+        "/",
+        "/tmp"
+      ],
+      "elapsed_seconds": 0.019863,
+      "name": "disk",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.288577Z",
+      "stderr_file": "commands/10-disk.stderr.txt",
+      "stdout_file": "commands/10-disk.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "cat",
+        "/proc/meminfo"
+      ],
+      "elapsed_seconds": 0.001942,
+      "name": "memory",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.308630Z",
+      "stderr_file": "commands/11-memory.stderr.txt",
+      "stdout_file": "commands/11-memory.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.001244,
+      "name": "git-head",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.310795Z",
+      "stderr_file": "commands/12-git-head.stderr.txt",
+      "stdout_file": "commands/12-git-head.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "systemd-run",
+        "--unit=filiolae-host-probe-1993.service",
+        "--property=Type=simple",
+        "--collect",
+        "/usr/bin/sleep",
+        "30"
+      ],
+      "elapsed_seconds": 0.027423,
+      "name": "transient-start",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.312223Z",
+      "stderr_file": "commands/13-transient-start.stderr.txt",
+      "stdout_file": "commands/13-transient-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "systemctl",
+        "is-active",
+        "filiolae-host-probe-1993.service"
+      ],
+      "elapsed_seconds": 0.009184,
+      "name": "transient-active",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.339883Z",
+      "stderr_file": "commands/14-transient-active.stderr.txt",
+      "stdout_file": "commands/14-transient-active.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "systemctl",
+        "show",
+        "filiolae-host-probe-1993.service",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.010109,
+      "name": "transient-properties",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.349280Z",
+      "stderr_file": "commands/15-transient-properties.stderr.txt",
+      "stdout_file": "commands/15-transient-properties.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "journalctl",
+        "-u",
+        "filiolae-host-probe-1993.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00742,
+      "name": "transient-journal",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.359641Z",
+      "stderr_file": "commands/16-transient-journal.stderr.txt",
+      "stdout_file": "commands/16-transient-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "systemctl",
+        "stop",
+        "filiolae-host-probe-1993.service"
+      ],
+      "elapsed_seconds": 0.01621,
+      "name": "transient-stop",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.367271Z",
+      "stderr_file": "commands/17-transient-stop.stderr.txt",
+      "stdout_file": "commands/17-transient-stop.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sudo",
+        "systemctl",
+        "reset-failed",
+        "filiolae-host-probe-1993.service"
+      ],
+      "elapsed_seconds": 0.008646,
+      "name": "transient-reset-failed",
+      "returncode": 1,
+      "started_at": "2026-08-12T03:49:10.383643Z",
+      "stderr_file": "commands/18-transient-reset-failed.stderr.txt",
+      "stdout_file": "commands/18-transient-reset-failed.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-cgls",
+        "--all",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.005506,
+      "name": "cgroup-tree-after",
+      "returncode": 0,
+      "started_at": "2026-08-12T03:49:10.392496Z",
+      "stderr_file": "commands/19-cgroup-tree-after.stderr.txt",
+      "stdout_file": "commands/19-cgroup-tree-after.stdout.txt",
+      "timed_out": false
+    }
+  ],
+  "completed_at": "2026-08-12T03:49:10.398213Z",
+  "error": null,
+  "passed": true,
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "schema": "filiolae.systemd-host-probe.v1",
+  "selected_environment": {
+    "CI": "true",
+    "GITHUB_ACTION": "__run",
+    "GITHUB_ACTOR": "MelaBuilt-AI",
+    "GITHUB_EVENT_NAME": "workflow_dispatch",
+    "GITHUB_JOB": "game-day",
+    "GITHUB_REPOSITORY": "MelaBuilt-AI/Filiolae",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_RUN_ID": "31561250307",
+    "GITHUB_SHA": "35529fec51727d360a77b41f56a19134cde94d80",
+    "ImageOS": "ubuntu24",
+    "ImageVersion": "20260810.271.1",
+    "RUNNER_ARCH": "X64",
+    "RUNNER_ENVIRONMENT": "github-hosted",
+    "RUNNER_NAME": "GitHub Actions 1000001254",
+    "RUNNER_OS": "Linux"
+  },
+  "started_at": "2026-08-12T03:49:10.244515Z"
+}

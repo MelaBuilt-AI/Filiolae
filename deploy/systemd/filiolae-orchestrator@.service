@@ -1,0 +1,53 @@
+[Unit]
+Description=Filiolae governed prime-rl orchestrator for %i
+Documentation=file:/usr/share/doc/filiolae/unix-witness.md
+BindsTo=filiolae-witness@%i.service
+After=filiolae-witness@%i.service
+RequiresMountsFor=/srv/filiolae/runs/%i /var/lib/filiolae-gate-mirrors
+ConditionPathExists=/run/filiolae-locks/%i/ledger.lock
+ConditionPathExists=/etc/filiolae/orchestrator/%i.toml
+
+[Service]
+Type=exec
+User=filiolae-orchestrator
+Group=filiolae-orchestrator
+SupplementaryGroups=filiolae-ledger
+Slice=filiolae-governed.slice
+EnvironmentFile=/etc/filiolae/orchestrator/%i.env
+Environment=FILIOLAE_ANCHOR_WITNESS_SOCKET=/run/filiolae-witness/%i.sock
+Environment=FILIOLAE_ANCHOR_WITNESS_PUBLIC_KEY=/etc/filiolae/ed25519-public.pem
+Environment=FILIOLAE_ANCHOR_WITNESS_MIRROR_DIR=/var/lib/filiolae-gate-mirrors/%i
+Environment=FILIOLAE_LEDGER_LOCK_PATH=/run/filiolae-locks/%i/ledger.lock
+Environment=FILIOLAE_ANCHOR_WITNESS_TIMEOUT_SECONDS=10
+Environment=FILIOLAE_RUN_ID=%i
+ExecStart=/usr/bin/env filiolae-rl @ /etc/filiolae/orchestrator/%i.toml --output-dir /srv/filiolae/runs/%i
+Restart=no
+TimeoutStopSec=30s
+TimeoutStopFailureMode=kill
+KillMode=control-group
+SendSIGKILL=yes
+FinalKillSignal=SIGKILL
+OOMPolicy=stop
+UMask=0027
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+SystemCallArchitectures=native
+ReadOnlyPaths=/etc/filiolae /etc/filiolae-witness
+ReadWritePaths=/srv/filiolae/runs/%i /var/lib/filiolae-gate-mirrors/%i
+
+[Install]
+WantedBy=multi-user.target

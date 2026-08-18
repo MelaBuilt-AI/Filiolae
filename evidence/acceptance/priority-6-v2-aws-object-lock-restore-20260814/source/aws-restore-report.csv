@@ -1,0 +1,3 @@
+Type,File,Size,Result,Finish Time,Duration,Modification Date,Error Message,
+Restore,D:\Filiolae-p6-v2-gate-f-acceptance Restore\Filiolae-p6-v2-gate-f-acceptance\Get-FileHash -Algorithm SHA256 DFil.txt,680,Success,2026-08-14 11:47:56,29,2026-08-14 10:39:30,,
+Restore,D:\Filiolae-p6-v2-gate-f-acceptance Restore\Filiolae-p6-v2-gate-f-acceptance\gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz,2385167636,Success,2026-08-14 11:47:56,29,2026-08-13 23:14:28,,

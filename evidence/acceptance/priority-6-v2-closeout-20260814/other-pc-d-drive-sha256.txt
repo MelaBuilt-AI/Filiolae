@@ -1,0 +1,10 @@
+Get-FileHash -Algorithm SHA256 "D:\Filiolae-p6-v2-gate-f-acceptance\gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz"
+
+
+PS C:\Windows\System32> Get-FileHash -Algorithm SHA256 "D:\Filiolae-p6-v2-gate-f-acceptance\gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz"
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          FFE77BC5F4B6F7C65DC7C2A7FF44EEB5335789431B389ED0EEDB3D5F1ADB57AB       D:\Filiolae-p6-v2-gate-f-accept…
+
+PS C:\Windows\System32>

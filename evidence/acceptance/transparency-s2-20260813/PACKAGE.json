@@ -1,0 +1,17 @@
+{
+  "files_before_final_sha256sums": 204,
+  "post_run_sanitization": {
+    "canonical_evidence_sha256sums_sha256_before_sanitization": "ac2624dcad048dff47a8e6df7965d5f1df3eda1690046db91f971e5fdd48f54f",
+    "executed_commands_jsonl_sha256_before_sanitization": "8dfe0e021361284ad0e036ecd31ef376fefa42a5edacebf414703087c866360a",
+    "executed_coordinator_sha256_before_portability_edit": "69fe6a81d947e49430cadfc8fd83b0d4dbb887e64bc0e241866ea515aabed479",
+    "files": [
+      "commands.jsonl",
+      "source/run_transparency_s2.py"
+    ],
+    "reason": "remove machine-local absolute paths from public repository text",
+    "semantic_artifacts_changed": false
+  },
+  "pre_package_sha256sums_sha256": "994fa7be8747f1f1e48179e8bb13cba36b2454565cfb8b3fc1bc5b264e2e1f99",
+  "private_keys_retained": false,
+  "schema": "filiolae.transparency-s2-evidence-package.v1"
+}

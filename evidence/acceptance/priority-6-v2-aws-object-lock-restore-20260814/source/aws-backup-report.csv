@@ -1,0 +1,4 @@
+Type,File,Size,Result,Finish Time,Duration,Modification Date,Error Message,
+Backup,D:\Filiolae-p6-v2-gate-f-acceptance\gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz,854346086,Success,2026-08-14 11:38:05,178,2026-08-13 23:14:28,,
+Backup,D:\Filiolae-p6-v2-gate-f-acceptance\Get-FileHash -Algorithm SHA256 DFil.txt,346,Success,2026-08-14 11:38:05,178,2026-08-14 10:39:30,,
+Backup,Detailed report,875,Success,2026-08-14 11:38:05,0,2026-08-14 11:26:55,,

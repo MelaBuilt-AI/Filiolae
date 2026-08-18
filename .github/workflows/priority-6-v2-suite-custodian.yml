@@ -1,0 +1,144 @@
+# RETIRED: Priority 6 v2 authority and one-use suites are consumed. This retained workflow is
+# permanently inert and exists only to make the historical custody mechanism inspectable.
+name: RETIRED - Priority 6 v2 suite custodian
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Custodian operation
+        required: true
+        type: choice
+        options:
+          - commitments
+          - release-readiness
+          - release-final
+      candidate_digest:
+        description: Frozen candidate tree SHA-256 (required for release operations)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: filiolae-priority-6-v2-suite-custodian
+  cancel-in-progress: false
+
+jobs:
+  custodian:
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      READINESS_SEED: ${{ secrets.P6_V2_READINESS_SEED }}
+      FINAL_SEED: ${{ secrets.P6_V2_FINAL_SEED }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Validate custodian secrets and release prerequisite
+        env:
+          OPERATION: ${{ inputs.operation }}
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+        run: |
+          set -euo pipefail
+          test "${#READINESS_SEED}" -eq 64
+          test "${#FINAL_SEED}" -eq 64
+          case "$READINESS_SEED$FINAL_SEED" in
+            *[!0-9a-f]*) echo 'custodian seeds must be lowercase hexadecimal' >&2; exit 1 ;;
+          esac
+          test "$READINESS_SEED" != "$FINAL_SEED"
+          if [[ "$OPERATION" == release-* ]]; then
+            [[ "$CANDIDATE_DIGEST" =~ ^[0-9a-f]{64}$ ]]
+            python3 - "$OPERATION" "$CANDIDATE_DIGEST" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          operation, digest = sys.argv[1:]
+          freeze_path = Path("examples/priority-6-v2/gate-d-v1/candidate-freeze-v1.json")
+          freeze = json.loads(freeze_path.read_text())
+          assert freeze["schema"] == "filiolae.priority6-v2-candidate-freeze.v1"
+          assert freeze["status"] == "frozen-before-readiness"
+          assert freeze["candidate_tree_sha256"] == digest
+          if operation == "release-final":
+              readiness_path = Path("examples/priority-6-v2/gate-d-v1/readiness-result-v1.json")
+              readiness = json.loads(readiness_path.read_text())
+              assert readiness["schema"] == "filiolae.priority6-v2-readiness-result.v1"
+              assert readiness["candidate_tree_sha256"] == digest
+              assert readiness["complete"] is True
+              assert readiness["candidate_exact_matches"] >= 244
+              assert readiness["candidate_quality_bps"] >= 9500
+              assert readiness["regression_bps"] <= 39
+              assert readiness["status"] == "passed"
+          PY
+          fi
+      - name: Generate commitments or authorized suite release
+        env:
+          OPERATION: ${{ inputs.operation }}
+          CANDIDATE_DIGEST: ${{ inputs.candidate_digest }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/p6-v2-custodian"
+          mkdir -m 0700 "$out"
+          common=(
+            --forbid-inventory examples/priority-6-v2/gate-d-v1/training-inventory.json
+            --forbid-inventory examples/priority-6-v2/gate-d-v1/visible-development-inventory.json
+          )
+          readiness_output=()
+          if [[ "$OPERATION" == release-readiness ]]; then
+            readiness_output=(
+              --output "$out/readiness.jsonl"
+              --inventory-output "$out/readiness-inventory.json"
+            )
+          fi
+          ./ops/priority-6-v2/data_contract.py             --seed-env READINESS_SEED --count 256 --prefix p6v2-readiness             "${common[@]}" "${readiness_output[@]}"             --summary-output "$out/readiness-summary.json"             > "$out/readiness-generation.log"
+          # Recreate the readiness inventory in private temporary storage so the final
+          # suite is committed disjointly even when readiness plaintext is not released.
+          if [[ ! -f "$out/readiness-inventory.json" ]]; then
+            ./ops/priority-6-v2/data_contract.py               --seed-env READINESS_SEED --count 256 --prefix p6v2-readiness               "${common[@]}" --inventory-output "$out/readiness-inventory.json"               > /dev/null
+          fi
+          final_output=()
+          if [[ "$OPERATION" == release-final ]]; then
+            final_output=(
+              --output "$out/final.jsonl"
+              --inventory-output "$out/final-inventory.json"
+            )
+          fi
+          ./ops/priority-6-v2/data_contract.py             --seed-env FINAL_SEED --count 128 --prefix p6v2-final             "${common[@]}"             --forbid-inventory "$out/readiness-inventory.json"             "${final_output[@]}"             --summary-output "$out/final-summary.json"             > "$out/final-generation.log"
+          if [[ "$OPERATION" != "release-readiness" ]]; then
+            rm -f "$out/readiness-inventory.json"
+          fi
+          python3 - "$out" "$OPERATION" "$CANDIDATE_DIGEST" "$GITHUB_SHA" <<'PY'
+          import hashlib
+          import json
+          import sys
+          from pathlib import Path
+
+          root, operation, candidate, source_commit = sys.argv[1:]
+          root = Path(root)
+          readiness = json.loads((root / "readiness-summary.json").read_text())
+          final = json.loads((root / "final-summary.json").read_text())
+          custody = {
+              "candidate_tree_sha256": candidate or None,
+              "final": final,
+              "operation": operation,
+              "readiness": readiness,
+              "repository_commit": source_commit,
+              "schema": "filiolae.priority6-v2-custody-terminal.v1",
+          }
+          (root / "CUSTODY.json").write_text(
+              json.dumps(custody, sort_keys=True, separators=(",", ":")) + "\n"
+          )
+          for path in sorted(root.iterdir()):
+              if path.is_file() and path.name != "SHA256SUMS":
+                  digest = hashlib.sha256(path.read_bytes()).hexdigest()
+                  with (root / "SHA256SUMS").open("a") as handle:
+                      handle.write(f"{digest}  {path.name}\n")
+          PY
+          chmod -R go-rwx "$out"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: priority-6-v2-custody-${{ inputs.operation }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/p6-v2-custodian
+          if-no-files-found: error
+          retention-days: 14

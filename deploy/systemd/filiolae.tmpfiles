@@ -1,0 +1,11 @@
+# Long-lived roots only. provision-unix-witness writes one root-owned per-run fragment.
+d /etc/filiolae 0755 root root -
+d /etc/filiolae/orchestrator 0750 root filiolae-orchestrator -
+d /etc/filiolae-witness 0710 root filiolae-witness -
+d /etc/filiolae-witness/runs 0710 root filiolae-witness -
+d /var/lib/filiolae-witness 0700 filiolae-witness filiolae-witness -
+d /var/lib/filiolae-gate-mirrors 0700 filiolae-orchestrator filiolae-orchestrator -
+d /srv/filiolae 0711 root root -
+d /srv/filiolae/runs 0710 root filiolae-ledger -
+d /run/filiolae-locks 0710 root filiolae-ledger -
+d /run/filiolae-witness 0750 filiolae-witness filiolae-ledger -

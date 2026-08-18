@@ -1,0 +1,5 @@
+2026-08-13T21:44:48Z creator: ValueError: Invalid isoformat string: '2026-08-13 21:44:46 UTC'
+2026-08-13T21:45:22Z systemd: exact-ID watchdog started for 24b80331e5234775a3ce789f66465087
+2026-08-13T21:46:18Z creator: syntax error near unexpected token `)' after the live script path had been modified
+2026-08-13T21:46:25Z provider: exact pod terminated by creator EXIT cleanup
+2026-08-13T21:46:26Z systemd: creator exited status 2; failed closed

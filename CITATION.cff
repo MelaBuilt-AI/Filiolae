@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: >-
+  If you use Filiolae, cite the exact release or commit and preserve the
+  pre-alpha evidence limitations.
+title: "Filiolae: fail-closed governance primitives for automated AI R&D"
+type: software
+authors:
+  - name: MelaBuilt AI
+version: 0.1.0
+license: AGPL-3.0-only
+repository-code: "https://github.com/MelaBuilt-AI/Filiolae"
+url: "https://github.com/MelaBuilt-AI/Filiolae"
+abstract: >-
+  A pre-alpha governance kernel that binds a machine-readable Charter,
+  tamper-evident Ledger, content-addressed evidence, independent witness
+  seams, candidate evaluation, and a fail-closed policy-promotion Gate.
+keywords:
+  - AI governance
+  - automated AI R&D
+  - audit
+  - fail-closed
+  - machine learning security

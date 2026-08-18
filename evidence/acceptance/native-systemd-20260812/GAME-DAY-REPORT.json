@@ -1,0 +1,3160 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/home/runner/work/Filiolae/Filiolae",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.001418,
+      "name": "git-head",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:11.654085Z",
+      "stderr_file": "commands/001-install-git-head.stderr.txt",
+      "stdout_file": "commands/001-install-git-head.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-sysusers",
+        "/usr/lib/sysusers.d/filiolae.conf"
+      ],
+      "elapsed_seconds": 0.030789,
+      "name": "systemd-sysusers",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:11.657190Z",
+      "stderr_file": "commands/002-install-systemd-sysusers.stderr.txt",
+      "stdout_file": "commands/002-install-systemd-sysusers.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-tmpfiles",
+        "--create",
+        "/usr/lib/tmpfiles.d/filiolae.conf"
+      ],
+      "elapsed_seconds": 0.00363,
+      "name": "systemd-tmpfiles",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:11.688311Z",
+      "stderr_file": "commands/003-install-systemd-tmpfiles.stderr.txt",
+      "stdout_file": "commands/003-install-systemd-tmpfiles.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "anchor-keygen",
+        "--private-key",
+        "/root/filiolae-game-day-private.pem",
+        "--public-key",
+        "/root/filiolae-game-day-public.pem"
+      ],
+      "elapsed_seconds": 0.328723,
+      "name": "keygen",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:11.693296Z",
+      "stderr_file": "commands/004-install-keygen.stderr.txt",
+      "stdout_file": "commands/004-install-keygen.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "daemon-reload"
+      ],
+      "elapsed_seconds": 0.217648,
+      "name": "daemon-reload",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:12.022664Z",
+      "stderr_file": "commands/005-install-daemon-reload.stderr.txt",
+      "stdout_file": "commands/005-install-daemon-reload.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-analyze",
+        "verify",
+        "/etc/systemd/system/filiolae-governed.slice",
+        "/etc/systemd/system/filiolae-witness@.service",
+        "/etc/systemd/system/filiolae-orchestrator@.service"
+      ],
+      "elapsed_seconds": 0.087707,
+      "name": "systemd-verify",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:12.240745Z",
+      "stderr_file": "commands/006-install-systemd-verify.stderr.txt",
+      "stdout_file": "commands/006-install-systemd-verify.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-analyze",
+        "security",
+        "filiolae-witness@dummy.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.013037,
+      "name": "systemd-security-witness",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:12.328744Z",
+      "stderr_file": "commands/007-install-systemd-security-witness.stderr.txt",
+      "stdout_file": "commands/007-install-systemd-security-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-analyze",
+        "security",
+        "filiolae-orchestrator@dummy.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.017326,
+      "name": "systemd-security-orchestrator",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:12.342307Z",
+      "stderr_file": "commands/008-install-systemd-security-orchestrator.stderr.txt",
+      "stdout_file": "commands/008-install-systemd-security-orchestrator.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "sha256sum",
+        "/usr/lib/sysusers.d/filiolae.conf",
+        "/usr/lib/tmpfiles.d/filiolae.conf",
+        "/etc/systemd/system/filiolae-governed.slice",
+        "/etc/systemd/system/filiolae-witness@.service",
+        "/etc/systemd/system/filiolae-orchestrator@.service",
+        "/usr/libexec/filiolae-witness-ready",
+        "/usr/local/sbin/provision-unix-witness",
+        "/usr/libexec/filiolae-containment-harness",
+        "/etc/systemd/system/filiolae-orchestrator@.service.d/50-game-day.conf",
+        "/etc/filiolae/ed25519-public.pem"
+      ],
+      "elapsed_seconds": 0.002039,
+      "name": "install-sha256",
+      "returncode": 0,
+      "scenario": "install",
+      "started_at": "2026-08-12T03:49:12.361676Z",
+      "stderr_file": "commands/009-install-install-sha256.stderr.txt",
+      "stdout_file": "commands/009-install-install-sha256.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-baseline"
+      ],
+      "elapsed_seconds": 0.38824,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:12.364147Z",
+      "stderr_file": "commands/010-S1-provision.stderr.txt",
+      "stdout_file": "commands/010-S1-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-baseline",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.1909,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:12.752805Z",
+      "stderr_file": "commands/011-S1-enroll.stderr.txt",
+      "stdout_file": "commands/011-S1-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-baseline"
+      ],
+      "elapsed_seconds": 0.043241,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:12.943989Z",
+      "stderr_file": "commands/012-S1-validate-before-start.stderr.txt",
+      "stdout_file": "commands/012-S1-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "runuser",
+        "-u",
+        "filiolae-orchestrator",
+        "--",
+        "test",
+        "!",
+        "-r",
+        "/etc/filiolae-witness/ed25519-private.pem"
+      ],
+      "elapsed_seconds": 0.04247,
+      "name": "orchestrator-private-key-unreadable",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:12.987765Z",
+      "stderr_file": "commands/013-S0-orchestrator-private-key-unreadable.stderr.txt",
+      "stdout_file": "commands/013-S0-orchestrator-private-key-unreadable.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "runuser",
+        "-u",
+        "filiolae-orchestrator",
+        "--",
+        "test",
+        "!",
+        "-r",
+        "/var/lib/filiolae-witness/gd-baseline"
+      ],
+      "elapsed_seconds": 0.00396,
+      "name": "orchestrator-authoritative-unreadable",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:13.030532Z",
+      "stderr_file": "commands/014-S0-orchestrator-authoritative-unreadable.stderr.txt",
+      "stdout_file": "commands/014-S0-orchestrator-authoritative-unreadable.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "runuser",
+        "-u",
+        "filiolae-orchestrator",
+        "--",
+        "test",
+        "!",
+        "-r",
+        "/etc/filiolae-witness/runs/gd-baseline.env"
+      ],
+      "elapsed_seconds": 0.00372,
+      "name": "orchestrator-witness-env-unreadable",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:13.034765Z",
+      "stderr_file": "commands/015-S0-orchestrator-witness-env-unreadable.stderr.txt",
+      "stdout_file": "commands/015-S0-orchestrator-witness-env-unreadable.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "runuser",
+        "-u",
+        "filiolae-witness",
+        "--",
+        "test",
+        "!",
+        "-w",
+        "/srv/filiolae/runs/gd-baseline"
+      ],
+      "elapsed_seconds": 0.00379,
+      "name": "witness-run-not-writable",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:13.038736Z",
+      "stderr_file": "commands/016-S0-witness-run-not-writable.stderr.txt",
+      "stdout_file": "commands/016-S0-witness-run-not-writable.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "runuser",
+        "-u",
+        "filiolae-witness",
+        "--",
+        "test",
+        "!",
+        "-w",
+        "/var/lib/filiolae-gate-mirrors/gd-baseline"
+      ],
+      "elapsed_seconds": 0.003613,
+      "name": "witness-mirror-not-writable",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:13.042768Z",
+      "stderr_file": "commands/017-S0-witness-mirror-not-writable.stderr.txt",
+      "stdout_file": "commands/017-S0-witness-mirror-not-writable.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "stat",
+        "-Lc",
+        "%n|%F|%a|%u|%g|%i",
+        "/etc/filiolae-witness/ed25519-private.pem",
+        "/etc/filiolae/ed25519-public.pem",
+        "/run/filiolae-locks/gd-baseline",
+        "/run/filiolae-locks/gd-baseline/ledger.lock",
+        "/srv/filiolae/runs/gd-baseline",
+        "/var/lib/filiolae-witness/gd-baseline",
+        "/var/lib/filiolae-gate-mirrors/gd-baseline"
+      ],
+      "elapsed_seconds": 0.001941,
+      "name": "path-metadata",
+      "returncode": 0,
+      "scenario": "S0",
+      "started_at": "2026-08-12T03:49:13.046645Z",
+      "stderr_file": "commands/018-S0-path-metadata.stderr.txt",
+      "stdout_file": "commands/018-S0-path-metadata.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-baseline.service"
+      ],
+      "elapsed_seconds": 0.225932,
+      "name": "start-orchestrator",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.048849Z",
+      "stderr_file": "commands/019-S1-start-orchestrator.stderr.txt",
+      "stdout_file": "commands/019-S1-start-orchestrator.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-baseline.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007569,
+      "name": "active-witness-show",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.576142Z",
+      "stderr_file": "commands/020-S1-active-witness-show.stderr.txt",
+      "stdout_file": "commands/020-S1-active-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-baseline.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007478,
+      "name": "active-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.584072Z",
+      "stderr_file": "commands/021-S1-active-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/021-S1-active-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "verify-anchors",
+        "/srv/filiolae/runs/gd-baseline/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-baseline/control/filiolae/artifacts",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-baseline",
+        "--public-key",
+        "/etc/filiolae/ed25519-public.pem"
+      ],
+      "elapsed_seconds": 0.133466,
+      "name": "verify-anchors-current",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.697377Z",
+      "stderr_file": "commands/022-S1-verify-anchors-current.stderr.txt",
+      "stdout_file": "commands/022-S1-verify-anchors-current.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "audit",
+        "/srv/filiolae/runs/gd-baseline/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-baseline/control/filiolae/artifacts",
+        "--charter",
+        "/etc/filiolae/orchestrator/gd-baseline.charter.yaml",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-baseline",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-baseline/enrollment.json"
+      ],
+      "elapsed_seconds": 0.138785,
+      "name": "audit",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.831225Z",
+      "stderr_file": "commands/023-S1-audit.stderr.txt",
+      "stdout_file": "commands/023-S1-audit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "explain",
+        "/srv/filiolae/runs/gd-baseline",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-baseline",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-baseline/enrollment.json",
+        "--json"
+      ],
+      "elapsed_seconds": 0.140904,
+      "name": "explain-json",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:13.970367Z",
+      "stderr_file": "commands/024-S1-explain-json.stderr.txt",
+      "stdout_file": "commands/024-S1-explain-json.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-baseline.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.005094,
+      "name": "before-stop-witness-show",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:14.111594Z",
+      "stderr_file": "commands/025-S1-before-stop-witness-show.stderr.txt",
+      "stdout_file": "commands/025-S1-before-stop-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-baseline.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.004903,
+      "name": "before-stop-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:14.117053Z",
+      "stderr_file": "commands/026-S1-before-stop-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/026-S1-before-stop-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-baseline.service",
+        "filiolae-witness@gd-baseline.service"
+      ],
+      "elapsed_seconds": 30.249462,
+      "name": "stop-baseline",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:14.122366Z",
+      "stderr_file": "commands/027-S1-stop-baseline.stderr.txt",
+      "stdout_file": "commands/027-S1-stop-baseline.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-baseline.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00334,
+      "name": "collect-gd-baseline-witness-journal",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:44.372465Z",
+      "stderr_file": "commands/028-S1-collect-gd-baseline-witness-journal.stderr.txt",
+      "stdout_file": "commands/028-S1-collect-gd-baseline-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-baseline.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.0038,
+      "name": "collect-gd-baseline-witness-unit",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:44.376194Z",
+      "stderr_file": "commands/029-S1-collect-gd-baseline-witness-unit.stderr.txt",
+      "stdout_file": "commands/029-S1-collect-gd-baseline-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-baseline.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002843,
+      "name": "collect-gd-baseline-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:44.380379Z",
+      "stderr_file": "commands/030-S1-collect-gd-baseline-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/030-S1-collect-gd-baseline-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-baseline.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003732,
+      "name": "collect-gd-baseline-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S1",
+      "started_at": "2026-08-12T03:49:44.383516Z",
+      "stderr_file": "commands/031-S1-collect-gd-baseline-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/031-S1-collect-gd-baseline-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-witness-crash"
+      ],
+      "elapsed_seconds": 0.369924,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:44.391428Z",
+      "stderr_file": "commands/032-S2-provision.stderr.txt",
+      "stdout_file": "commands/032-S2-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-witness-crash",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.188296,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:44.761901Z",
+      "stderr_file": "commands/033-S2-enroll.stderr.txt",
+      "stdout_file": "commands/033-S2-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-witness-crash"
+      ],
+      "elapsed_seconds": 0.042342,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:44.950489Z",
+      "stderr_file": "commands/034-S2-validate-before-start.stderr.txt",
+      "stdout_file": "commands/034-S2-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-witness-crash.service"
+      ],
+      "elapsed_seconds": 0.221754,
+      "name": "start-orchestrator",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:44.993187Z",
+      "stderr_file": "commands/035-S2-start-orchestrator.stderr.txt",
+      "stdout_file": "commands/035-S2-start-orchestrator.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-witness-crash.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007089,
+      "name": "active-witness-show",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:45.516296Z",
+      "stderr_file": "commands/036-S2-active-witness-show.stderr.txt",
+      "stdout_file": "commands/036-S2-active-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007036,
+      "name": "active-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:45.523761Z",
+      "stderr_file": "commands/037-S2-active-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/037-S2-active-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "kill",
+        "-s",
+        "SIGKILL",
+        "filiolae-witness@gd-witness-crash.service"
+      ],
+      "elapsed_seconds": 0.004598,
+      "name": "kill-witness",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:49:45.535934Z",
+      "stderr_file": "commands/038-S2-kill-witness.stderr.txt",
+      "stdout_file": "commands/038-S2-kill-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-witness-crash.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.005723,
+      "name": "after-crash-witness-show",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.686974Z",
+      "stderr_file": "commands/039-S2-after-crash-witness-show.stderr.txt",
+      "stdout_file": "commands/039-S2-after-crash-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.00477,
+      "name": "after-crash-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.693012Z",
+      "stderr_file": "commands/040-S2-after-crash-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/040-S2-after-crash-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-witness-crash.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002822,
+      "name": "collect-gd-witness-crash-witness-journal",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.698179Z",
+      "stderr_file": "commands/041-S2-collect-gd-witness-crash-witness-journal.stderr.txt",
+      "stdout_file": "commands/041-S2-collect-gd-witness-crash-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-witness-crash.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003776,
+      "name": "collect-gd-witness-crash-witness-unit",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.701368Z",
+      "stderr_file": "commands/042-S2-collect-gd-witness-crash-witness-unit.stderr.txt",
+      "stdout_file": "commands/042-S2-collect-gd-witness-crash-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.0028,
+      "name": "collect-gd-witness-crash-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.705502Z",
+      "stderr_file": "commands/043-S2-collect-gd-witness-crash-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/043-S2-collect-gd-witness-crash-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003869,
+      "name": "collect-gd-witness-crash-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S2",
+      "started_at": "2026-08-12T03:50:15.708590Z",
+      "stderr_file": "commands/044-S2-collect-gd-witness-crash-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/044-S2-collect-gd-witness-crash-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-witness-hang"
+      ],
+      "elapsed_seconds": 0.372914,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:15.714457Z",
+      "stderr_file": "commands/045-S3-provision.stderr.txt",
+      "stdout_file": "commands/045-S3-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-witness-hang",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.187654,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.087972Z",
+      "stderr_file": "commands/046-S3-enroll.stderr.txt",
+      "stdout_file": "commands/046-S3-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-witness-hang"
+      ],
+      "elapsed_seconds": 0.041376,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.275925Z",
+      "stderr_file": "commands/047-S3-validate-before-start.stderr.txt",
+      "stdout_file": "commands/047-S3-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-witness-hang.service"
+      ],
+      "elapsed_seconds": 0.223633,
+      "name": "start-orchestrator",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.317798Z",
+      "stderr_file": "commands/048-S3-start-orchestrator.stderr.txt",
+      "stdout_file": "commands/048-S3-start-orchestrator.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-witness-hang.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007464,
+      "name": "active-witness-show",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.842802Z",
+      "stderr_file": "commands/049-S3-active-witness-show.stderr.txt",
+      "stdout_file": "commands/049-S3-active-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.006647,
+      "name": "active-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.850582Z",
+      "stderr_file": "commands/050-S3-active-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/050-S3-active-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "kill",
+        "-s",
+        "SIGSTOP",
+        "filiolae-witness@gd-witness-hang.service"
+      ],
+      "elapsed_seconds": 0.003778,
+      "name": "stop-witness-process",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:16.862462Z",
+      "stderr_file": "commands/051-S3-stop-witness-process.stderr.txt",
+      "stdout_file": "commands/051-S3-stop-witness-process.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "verify-anchors",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/artifacts",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--allow-stale"
+      ],
+      "elapsed_seconds": 0.133096,
+      "name": "verify-anchors-allow-stale",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:20.984428Z",
+      "stderr_file": "commands/052-S3-verify-anchors-allow-stale.stderr.txt",
+      "stdout_file": "commands/052-S3-verify-anchors-allow-stale.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "audit",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/artifacts",
+        "--charter",
+        "/etc/filiolae/orchestrator/gd-witness-hang.charter.yaml",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-witness-hang/enrollment.json"
+      ],
+      "elapsed_seconds": 0.136182,
+      "name": "audit",
+      "returncode": 1,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:21.117878Z",
+      "stderr_file": "commands/053-S3-audit.stderr.txt",
+      "stdout_file": "commands/053-S3-audit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "explain",
+        "/srv/filiolae/runs/gd-witness-hang",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-witness-hang/enrollment.json",
+        "--json"
+      ],
+      "elapsed_seconds": 0.138,
+      "name": "explain-json",
+      "returncode": 1,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:21.254426Z",
+      "stderr_file": "commands/054-S3-explain-json.stderr.txt",
+      "stdout_file": "commands/054-S3-explain-json.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "kill",
+        "-s",
+        "SIGCONT",
+        "filiolae-witness@gd-witness-hang.service"
+      ],
+      "elapsed_seconds": 0.006594,
+      "name": "continue-witness-process",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:21.392761Z",
+      "stderr_file": "commands/055-S3-continue-witness-process.stderr.txt",
+      "stdout_file": "commands/055-S3-continue-witness-process.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "verify-anchors",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/artifacts",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--public-key",
+        "/etc/filiolae/ed25519-public.pem"
+      ],
+      "elapsed_seconds": 0.13517,
+      "name": "verify-anchors-current",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:21.750636Z",
+      "stderr_file": "commands/056-S3-verify-anchors-current.stderr.txt",
+      "stdout_file": "commands/056-S3-verify-anchors-current.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "audit",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/ledger.jsonl",
+        "--artifact-root",
+        "/srv/filiolae/runs/gd-witness-hang/control/filiolae/artifacts",
+        "--charter",
+        "/etc/filiolae/orchestrator/gd-witness-hang.charter.yaml",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-witness-hang/enrollment.json"
+      ],
+      "elapsed_seconds": 0.139574,
+      "name": "audit",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:21.886193Z",
+      "stderr_file": "commands/057-S3-audit.stderr.txt",
+      "stdout_file": "commands/057-S3-audit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/bin/filiolae",
+        "explain",
+        "/srv/filiolae/runs/gd-witness-hang",
+        "--anchor-dir",
+        "/var/lib/filiolae-witness/gd-witness-hang",
+        "--anchor-public-key",
+        "/etc/filiolae/ed25519-public.pem",
+        "--witness-enrollment",
+        "/var/lib/filiolae-witness/gd-witness-hang/enrollment.json",
+        "--json"
+      ],
+      "elapsed_seconds": 0.140891,
+      "name": "explain-json",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:22.026133Z",
+      "stderr_file": "commands/058-S3-explain-json.stderr.txt",
+      "stdout_file": "commands/058-S3-explain-json.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "filiolae-witness@gd-witness-hang.service"
+      ],
+      "elapsed_seconds": 30.161399,
+      "name": "stop-hang-run",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:22.217834Z",
+      "stderr_file": "commands/059-S3-stop-hang-run.stderr.txt",
+      "stdout_file": "commands/059-S3-stop-hang-run.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-witness-hang.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.003484,
+      "name": "collect-gd-witness-hang-witness-journal",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:52.379787Z",
+      "stderr_file": "commands/060-S3-collect-gd-witness-hang-witness-journal.stderr.txt",
+      "stdout_file": "commands/060-S3-collect-gd-witness-hang-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-witness-hang.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.00416,
+      "name": "collect-gd-witness-hang-witness-unit",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:52.383599Z",
+      "stderr_file": "commands/061-S3-collect-gd-witness-hang-witness-unit.stderr.txt",
+      "stdout_file": "commands/061-S3-collect-gd-witness-hang-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002847,
+      "name": "collect-gd-witness-hang-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:52.388072Z",
+      "stderr_file": "commands/062-S3-collect-gd-witness-hang-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/062-S3-collect-gd-witness-hang-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003795,
+      "name": "collect-gd-witness-hang-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S3",
+      "started_at": "2026-08-12T03:50:52.391261Z",
+      "stderr_file": "commands/063-S3-collect-gd-witness-hang-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/063-S3-collect-gd-witness-hang-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-startup-key"
+      ],
+      "elapsed_seconds": 0.37373,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:50:52.399088Z",
+      "stderr_file": "commands/064-S4-provision.stderr.txt",
+      "stdout_file": "commands/064-S4-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-startup-key",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.188719,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:50:52.773439Z",
+      "stderr_file": "commands/065-S4-enroll.stderr.txt",
+      "stdout_file": "commands/065-S4-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-startup-key"
+      ],
+      "elapsed_seconds": 0.042714,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:50:52.962465Z",
+      "stderr_file": "commands/066-S4-validate-before-start.stderr.txt",
+      "stdout_file": "commands/066-S4-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-startup-key.service"
+      ],
+      "elapsed_seconds": 11.029642,
+      "name": "start-missing-key",
+      "returncode": 1,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:50:53.005629Z",
+      "stderr_file": "commands/067-S4-start-missing-key.stderr.txt",
+      "stdout_file": "commands/067-S4-start-missing-key.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-active",
+        "filiolae-witness@gd-startup-key.service"
+      ],
+      "elapsed_seconds": 0.003654,
+      "name": "state-missing-key-witness",
+      "returncode": 3,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.044271Z",
+      "stderr_file": "commands/068-S4-state-missing-key-witness.stderr.txt",
+      "stdout_file": "commands/068-S4-state-missing-key-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-startup-key.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.00645,
+      "name": "missing-key-witness-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.048309Z",
+      "stderr_file": "commands/069-S4-missing-key-witness-show.stderr.txt",
+      "stdout_file": "commands/069-S4-missing-key-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.008194,
+      "name": "missing-key-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.055036Z",
+      "stderr_file": "commands/070-S4-missing-key-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/070-S4-missing-key-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-key.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00324,
+      "name": "collect-key-witness-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.063575Z",
+      "stderr_file": "commands/071-S4-collect-key-witness-journal.stderr.txt",
+      "stdout_file": "commands/071-S4-collect-key-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-startup-key.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003768,
+      "name": "collect-key-witness-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.067171Z",
+      "stderr_file": "commands/072-S4-collect-key-witness-unit.stderr.txt",
+      "stdout_file": "commands/072-S4-collect-key-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002631,
+      "name": "collect-key-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.071283Z",
+      "stderr_file": "commands/073-S4-collect-key-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/073-S4-collect-key-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.009411,
+      "name": "collect-key-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.074242Z",
+      "stderr_file": "commands/074-S4-collect-key-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/074-S4-collect-key-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "filiolae-witness@gd-startup-key.service"
+      ],
+      "elapsed_seconds": 0.011895,
+      "name": "stop-missing-key",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.084512Z",
+      "stderr_file": "commands/075-S4-stop-missing-key.stderr.txt",
+      "stdout_file": "commands/075-S4-stop-missing-key.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-startup-lock"
+      ],
+      "elapsed_seconds": 0.370469,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.096842Z",
+      "stderr_file": "commands/076-S4-provision.stderr.txt",
+      "stdout_file": "commands/076-S4-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-startup-lock",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.187194,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.467923Z",
+      "stderr_file": "commands/077-S4-enroll.stderr.txt",
+      "stdout_file": "commands/077-S4-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-startup-lock"
+      ],
+      "elapsed_seconds": 0.042604,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.655416Z",
+      "stderr_file": "commands/078-S4-validate-before-start.stderr.txt",
+      "stdout_file": "commands/078-S4-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-startup-lock.service"
+      ],
+      "elapsed_seconds": 0.007853,
+      "name": "start-missing-lock",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.698410Z",
+      "stderr_file": "commands/079-S4-start-missing-lock.stderr.txt",
+      "stdout_file": "commands/079-S4-start-missing-lock.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-active",
+        "filiolae-witness@gd-startup-lock.service"
+      ],
+      "elapsed_seconds": 0.007502,
+      "name": "state-missing-lock-witness",
+      "returncode": 3,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.714628Z",
+      "stderr_file": "commands/080-S4-state-missing-lock-witness.stderr.txt",
+      "stdout_file": "commands/080-S4-state-missing-lock-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-startup-lock.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.008645,
+      "name": "missing-lock-witness-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.722494Z",
+      "stderr_file": "commands/081-S4-missing-lock-witness-show.stderr.txt",
+      "stdout_file": "commands/081-S4-missing-lock-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.008896,
+      "name": "missing-lock-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.731465Z",
+      "stderr_file": "commands/082-S4-missing-lock-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/082-S4-missing-lock-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-lock.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00283,
+      "name": "collect-lock-witness-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.740690Z",
+      "stderr_file": "commands/083-S4-collect-lock-witness-journal.stderr.txt",
+      "stdout_file": "commands/083-S4-collect-lock-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-startup-lock.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.00878,
+      "name": "collect-lock-witness-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.743823Z",
+      "stderr_file": "commands/084-S4-collect-lock-witness-unit.stderr.txt",
+      "stdout_file": "commands/084-S4-collect-lock-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002797,
+      "name": "collect-lock-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.753014Z",
+      "stderr_file": "commands/085-S4-collect-lock-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/085-S4-collect-lock-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.010488,
+      "name": "collect-lock-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.756144Z",
+      "stderr_file": "commands/086-S4-collect-lock-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/086-S4-collect-lock-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "filiolae-witness@gd-startup-lock.service"
+      ],
+      "elapsed_seconds": 0.019633,
+      "name": "stop-missing-lock",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.767591Z",
+      "stderr_file": "commands/087-S4-stop-missing-lock.stderr.txt",
+      "stdout_file": "commands/087-S4-stop-missing-lock.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-startup-enrollment"
+      ],
+      "elapsed_seconds": 0.369905,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:04.787573Z",
+      "stderr_file": "commands/088-S4-provision.stderr.txt",
+      "stdout_file": "commands/088-S4-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-startup-enrollment",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.189768,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.158082Z",
+      "stderr_file": "commands/089-S4-enroll.stderr.txt",
+      "stdout_file": "commands/089-S4-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-startup-enrollment"
+      ],
+      "elapsed_seconds": 0.043144,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.348186Z",
+      "stderr_file": "commands/090-S4-validate-before-start.stderr.txt",
+      "stdout_file": "commands/090-S4-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-startup-enrollment.service"
+      ],
+      "elapsed_seconds": 0.009559,
+      "name": "start-missing-enrollment",
+      "returncode": 1,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.391696Z",
+      "stderr_file": "commands/091-S4-start-missing-enrollment.stderr.txt",
+      "stdout_file": "commands/091-S4-start-missing-enrollment.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-active",
+        "filiolae-witness@gd-startup-enrollment.service"
+      ],
+      "elapsed_seconds": 0.006351,
+      "name": "state-missing-enrollment-witness",
+      "returncode": 3,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.408201Z",
+      "stderr_file": "commands/092-S4-state-missing-enrollment-witness.stderr.txt",
+      "stdout_file": "commands/092-S4-state-missing-enrollment-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-startup-enrollment.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.007772,
+      "name": "missing-enrollment-witness-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.415055Z",
+      "stderr_file": "commands/093-S4-missing-enrollment-witness-show.stderr.txt",
+      "stdout_file": "commands/093-S4-missing-enrollment-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.008116,
+      "name": "missing-enrollment-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.423285Z",
+      "stderr_file": "commands/094-S4-missing-enrollment-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/094-S4-missing-enrollment-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-enrollment.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00339,
+      "name": "collect-enrollment-witness-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.431749Z",
+      "stderr_file": "commands/095-S4-collect-enrollment-witness-journal.stderr.txt",
+      "stdout_file": "commands/095-S4-collect-enrollment-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-startup-enrollment.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.0096,
+      "name": "collect-enrollment-witness-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.435462Z",
+      "stderr_file": "commands/096-S4-collect-enrollment-witness-unit.stderr.txt",
+      "stdout_file": "commands/096-S4-collect-enrollment-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002999,
+      "name": "collect-enrollment-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.445444Z",
+      "stderr_file": "commands/097-S4-collect-enrollment-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/097-S4-collect-enrollment-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.010437,
+      "name": "collect-enrollment-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.448757Z",
+      "stderr_file": "commands/098-S4-collect-enrollment-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/098-S4-collect-enrollment-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "filiolae-witness@gd-startup-enrollment.service"
+      ],
+      "elapsed_seconds": 0.019908,
+      "name": "stop-missing-enrollment",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.460093Z",
+      "stderr_file": "commands/099-S4-stop-missing-enrollment.stderr.txt",
+      "stdout_file": "commands/099-S4-stop-missing-enrollment.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-startup-socket"
+      ],
+      "elapsed_seconds": 0.370949,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.480380Z",
+      "stderr_file": "commands/100-S4-provision.stderr.txt",
+      "stdout_file": "commands/100-S4-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-startup-socket",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.189034,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:05.851921Z",
+      "stderr_file": "commands/101-S4-enroll.stderr.txt",
+      "stdout_file": "commands/101-S4-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-startup-socket"
+      ],
+      "elapsed_seconds": 0.041971,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:06.041290Z",
+      "stderr_file": "commands/102-S4-validate-before-start.stderr.txt",
+      "stdout_file": "commands/102-S4-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "daemon-reload"
+      ],
+      "elapsed_seconds": 0.208412,
+      "name": "socket-fault-daemon-reload",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:06.083691Z",
+      "stderr_file": "commands/103-S4-socket-fault-daemon-reload.stderr.txt",
+      "stdout_file": "commands/103-S4-socket-fault-daemon-reload.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-startup-socket.service"
+      ],
+      "elapsed_seconds": 10.755214,
+      "name": "start-missing-socket",
+      "returncode": 1,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:06.292542Z",
+      "stderr_file": "commands/104-S4-start-missing-socket.stderr.txt",
+      "stdout_file": "commands/104-S4-start-missing-socket.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-active",
+        "filiolae-witness@gd-startup-socket.service"
+      ],
+      "elapsed_seconds": 0.003766,
+      "name": "state-missing-socket-witness",
+      "returncode": 3,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.057142Z",
+      "stderr_file": "commands/105-S4-state-missing-socket-witness.stderr.txt",
+      "stdout_file": "commands/105-S4-state-missing-socket-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-startup-socket.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.006577,
+      "name": "missing-socket-witness-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.061322Z",
+      "stderr_file": "commands/106-S4-missing-socket-witness-show.stderr.txt",
+      "stdout_file": "commands/106-S4-missing-socket-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.00827,
+      "name": "missing-socket-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.068286Z",
+      "stderr_file": "commands/107-S4-missing-socket-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/107-S4-missing-socket-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-socket.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002909,
+      "name": "collect-socket-witness-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.076937Z",
+      "stderr_file": "commands/108-S4-collect-socket-witness-journal.stderr.txt",
+      "stdout_file": "commands/108-S4-collect-socket-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-startup-socket.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003769,
+      "name": "collect-socket-witness-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.080184Z",
+      "stderr_file": "commands/109-S4-collect-socket-witness-unit.stderr.txt",
+      "stdout_file": "commands/109-S4-collect-socket-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002663,
+      "name": "collect-socket-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.084333Z",
+      "stderr_file": "commands/110-S4-collect-socket-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/110-S4-collect-socket-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.010417,
+      "name": "collect-socket-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.087332Z",
+      "stderr_file": "commands/111-S4-collect-socket-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/111-S4-collect-socket-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "filiolae-witness@gd-startup-socket.service"
+      ],
+      "elapsed_seconds": 0.011932,
+      "name": "stop-missing-socket",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.098601Z",
+      "stderr_file": "commands/112-S4-stop-missing-socket.stderr.txt",
+      "stdout_file": "commands/112-S4-stop-missing-socket.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "daemon-reload"
+      ],
+      "elapsed_seconds": 0.219005,
+      "name": "restore-socket-daemon-reload",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.110925Z",
+      "stderr_file": "commands/113-S4-restore-socket-daemon-reload.stderr.txt",
+      "stdout_file": "commands/113-S4-restore-socket-daemon-reload.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "provision",
+        "gd-startup-config"
+      ],
+      "elapsed_seconds": 0.38589,
+      "name": "provision",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.330403Z",
+      "stderr_file": "commands/114-S4-provision.stderr.txt",
+      "stdout_file": "commands/114-S4-provision.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "enroll",
+        "gd-startup-config",
+        "/home/runner/work/Filiolae/Filiolae/examples/charter.demo.yaml"
+      ],
+      "elapsed_seconds": 0.18794,
+      "name": "enroll",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.716705Z",
+      "stderr_file": "commands/115-S4-enroll.stderr.txt",
+      "stdout_file": "commands/115-S4-enroll.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "/usr/local/sbin/provision-unix-witness",
+        "validate",
+        "gd-startup-config"
+      ],
+      "elapsed_seconds": 0.041348,
+      "name": "validate-before-start",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.904943Z",
+      "stderr_file": "commands/116-S4-validate-before-start.stderr.txt",
+      "stdout_file": "commands/116-S4-validate-before-start.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "start",
+        "filiolae-orchestrator@gd-startup-config.service"
+      ],
+      "elapsed_seconds": 0.189144,
+      "name": "start-missing-config",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:17.946829Z",
+      "stderr_file": "commands/117-S4-start-missing-config.stderr.txt",
+      "stdout_file": "commands/117-S4-start-missing-config.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-active",
+        "filiolae-witness@gd-startup-config.service"
+      ],
+      "elapsed_seconds": 0.003483,
+      "name": "state-missing-config-witness",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.143667Z",
+      "stderr_file": "commands/118-S4-state-missing-config-witness.stderr.txt",
+      "stdout_file": "commands/118-S4-state-missing-config-witness.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-witness@gd-startup-config.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.006446,
+      "name": "missing-config-witness-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.147553Z",
+      "stderr_file": "commands/119-S4-missing-config-witness-show.stderr.txt",
+      "stdout_file": "commands/119-S4-missing-config-witness-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "show",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "-p",
+        "Id",
+        "-p",
+        "User",
+        "-p",
+        "Group",
+        "-p",
+        "MainPID",
+        "-p",
+        "ControlGroup",
+        "-p",
+        "ActiveState",
+        "-p",
+        "SubState",
+        "-p",
+        "Result",
+        "-p",
+        "ExecMainStatus",
+        "-p",
+        "KillMode",
+        "-p",
+        "BindsTo",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.008088,
+      "name": "missing-config-orchestrator-show",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.154372Z",
+      "stderr_file": "commands/120-S4-missing-config-orchestrator-show.stderr.txt",
+      "stdout_file": "commands/120-S4-missing-config-orchestrator-show.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-config.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002798,
+      "name": "collect-config-witness-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.162819Z",
+      "stderr_file": "commands/121-S4-collect-config-witness-journal.stderr.txt",
+      "stdout_file": "commands/121-S4-collect-config-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-witness@gd-startup-config.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.003523,
+      "name": "collect-config-witness-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.165912Z",
+      "stderr_file": "commands/122-S4-collect-config-witness-unit.stderr.txt",
+      "stdout_file": "commands/122-S4-collect-config-witness-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002704,
+      "name": "collect-config-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.169785Z",
+      "stderr_file": "commands/123-S4-collect-config-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/123-S4-collect-config-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.009604,
+      "name": "collect-config-orchestrator-unit",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.172772Z",
+      "stderr_file": "commands/124-S4-collect-config-orchestrator-unit.stderr.txt",
+      "stdout_file": "commands/124-S4-collect-config-orchestrator-unit.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "filiolae-witness@gd-startup-config.service"
+      ],
+      "elapsed_seconds": 0.059615,
+      "name": "stop-missing-config",
+      "returncode": 0,
+      "scenario": "S4",
+      "started_at": "2026-08-12T03:51:18.183242Z",
+      "stderr_file": "commands/125-S4-stop-missing-config.stderr.txt",
+      "stdout_file": "commands/125-S4-stop-missing-config.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-baseline.service",
+        "filiolae-witness@gd-baseline.service"
+      ],
+      "elapsed_seconds": 0.005189,
+      "name": "cleanup-stop-gd-baseline",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.244285Z",
+      "stderr_file": "commands/126-S6-cleanup-stop-gd-baseline.stderr.txt",
+      "stdout_file": "commands/126-S6-cleanup-stop-gd-baseline.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "filiolae-witness@gd-witness-crash.service"
+      ],
+      "elapsed_seconds": 0.005232,
+      "name": "cleanup-stop-gd-witness-crash",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.249758Z",
+      "stderr_file": "commands/127-S6-cleanup-stop-gd-witness-crash.stderr.txt",
+      "stdout_file": "commands/127-S6-cleanup-stop-gd-witness-crash.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "filiolae-witness@gd-witness-hang.service"
+      ],
+      "elapsed_seconds": 0.004734,
+      "name": "cleanup-stop-gd-witness-hang",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.255317Z",
+      "stderr_file": "commands/128-S6-cleanup-stop-gd-witness-hang.stderr.txt",
+      "stdout_file": "commands/128-S6-cleanup-stop-gd-witness-hang.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "filiolae-witness@gd-startup-key.service"
+      ],
+      "elapsed_seconds": 0.012182,
+      "name": "cleanup-stop-gd-startup-key",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.260335Z",
+      "stderr_file": "commands/129-S6-cleanup-stop-gd-startup-key.stderr.txt",
+      "stdout_file": "commands/129-S6-cleanup-stop-gd-startup-key.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "filiolae-witness@gd-startup-lock.service"
+      ],
+      "elapsed_seconds": 0.018958,
+      "name": "cleanup-stop-gd-startup-lock",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.272800Z",
+      "stderr_file": "commands/130-S6-cleanup-stop-gd-startup-lock.stderr.txt",
+      "stdout_file": "commands/130-S6-cleanup-stop-gd-startup-lock.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "filiolae-witness@gd-startup-enrollment.service"
+      ],
+      "elapsed_seconds": 0.020651,
+      "name": "cleanup-stop-gd-startup-enrollment",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.292226Z",
+      "stderr_file": "commands/131-S6-cleanup-stop-gd-startup-enrollment.stderr.txt",
+      "stdout_file": "commands/131-S6-cleanup-stop-gd-startup-enrollment.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "filiolae-witness@gd-startup-socket.service"
+      ],
+      "elapsed_seconds": 0.013236,
+      "name": "cleanup-stop-gd-startup-socket",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.313215Z",
+      "stderr_file": "commands/132-S6-cleanup-stop-gd-startup-socket.stderr.txt",
+      "stdout_file": "commands/132-S6-cleanup-stop-gd-startup-socket.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemctl",
+        "stop",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "filiolae-witness@gd-startup-config.service"
+      ],
+      "elapsed_seconds": 0.019473,
+      "name": "cleanup-stop-gd-startup-config",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.326760Z",
+      "stderr_file": "commands/133-S6-cleanup-stop-gd-startup-config.stderr.txt",
+      "stdout_file": "commands/133-S6-cleanup-stop-gd-startup-config.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-baseline.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.003742,
+      "name": "cleanup-gd-baseline-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.346663Z",
+      "stderr_file": "commands/134-S6-cleanup-gd-baseline-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/134-S6-cleanup-gd-baseline-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-baseline.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002943,
+      "name": "cleanup-gd-baseline-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.350733Z",
+      "stderr_file": "commands/135-S6-cleanup-gd-baseline-witness-journal.stderr.txt",
+      "stdout_file": "commands/135-S6-cleanup-gd-baseline-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-witness-crash.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002879,
+      "name": "cleanup-gd-witness-crash-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.353951Z",
+      "stderr_file": "commands/136-S6-cleanup-gd-witness-crash-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/136-S6-cleanup-gd-witness-crash-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-witness-crash.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002705,
+      "name": "cleanup-gd-witness-crash-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.357121Z",
+      "stderr_file": "commands/137-S6-cleanup-gd-witness-crash-witness-journal.stderr.txt",
+      "stdout_file": "commands/137-S6-cleanup-gd-witness-crash-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-witness-hang.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002753,
+      "name": "cleanup-gd-witness-hang-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.360114Z",
+      "stderr_file": "commands/138-S6-cleanup-gd-witness-hang-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/138-S6-cleanup-gd-witness-hang-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-witness-hang.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002575,
+      "name": "cleanup-gd-witness-hang-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.363153Z",
+      "stderr_file": "commands/139-S6-cleanup-gd-witness-hang-witness-journal.stderr.txt",
+      "stdout_file": "commands/139-S6-cleanup-gd-witness-hang-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-key.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002615,
+      "name": "cleanup-gd-startup-key-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.365974Z",
+      "stderr_file": "commands/140-S6-cleanup-gd-startup-key-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/140-S6-cleanup-gd-startup-key-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-key.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00299,
+      "name": "cleanup-gd-startup-key-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.368838Z",
+      "stderr_file": "commands/141-S6-cleanup-gd-startup-key-witness-journal.stderr.txt",
+      "stdout_file": "commands/141-S6-cleanup-gd-startup-key-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-lock.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002572,
+      "name": "cleanup-gd-startup-lock-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.372070Z",
+      "stderr_file": "commands/142-S6-cleanup-gd-startup-lock-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/142-S6-cleanup-gd-startup-lock-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-lock.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002448,
+      "name": "cleanup-gd-startup-lock-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.374885Z",
+      "stderr_file": "commands/143-S6-cleanup-gd-startup-lock-witness-journal.stderr.txt",
+      "stdout_file": "commands/143-S6-cleanup-gd-startup-lock-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-enrollment.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.0025,
+      "name": "cleanup-gd-startup-enrollment-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.377624Z",
+      "stderr_file": "commands/144-S6-cleanup-gd-startup-enrollment-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/144-S6-cleanup-gd-startup-enrollment-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-enrollment.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002523,
+      "name": "cleanup-gd-startup-enrollment-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.380364Z",
+      "stderr_file": "commands/145-S6-cleanup-gd-startup-enrollment-witness-journal.stderr.txt",
+      "stdout_file": "commands/145-S6-cleanup-gd-startup-enrollment-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-socket.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002675,
+      "name": "cleanup-gd-startup-socket-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.383164Z",
+      "stderr_file": "commands/146-S6-cleanup-gd-startup-socket-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/146-S6-cleanup-gd-startup-socket-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-socket.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002487,
+      "name": "cleanup-gd-startup-socket-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.386156Z",
+      "stderr_file": "commands/147-S6-cleanup-gd-startup-socket-witness-journal.stderr.txt",
+      "stdout_file": "commands/147-S6-cleanup-gd-startup-socket-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-orchestrator@gd-startup-config.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.002473,
+      "name": "cleanup-gd-startup-config-orchestrator-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.388898Z",
+      "stderr_file": "commands/148-S6-cleanup-gd-startup-config-orchestrator-journal.stderr.txt",
+      "stdout_file": "commands/148-S6-cleanup-gd-startup-config-orchestrator-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "journalctl",
+        "-u",
+        "filiolae-witness@gd-startup-config.service",
+        "--no-pager",
+        "--output=short-iso-precise"
+      ],
+      "elapsed_seconds": 0.00262,
+      "name": "cleanup-gd-startup-config-witness-journal",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.391620Z",
+      "stderr_file": "commands/149-S6-cleanup-gd-startup-config-witness-journal.stderr.txt",
+      "stdout_file": "commands/149-S6-cleanup-gd-startup-config-witness-journal.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "systemd-cgls",
+        "--unit",
+        "filiolae-governed.slice",
+        "--all",
+        "--no-pager"
+      ],
+      "elapsed_seconds": 0.004371,
+      "name": "cleanup-cgroup-tree",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.477078Z",
+      "stderr_file": "commands/150-S6-cleanup-cgroup-tree.stderr.txt",
+      "stdout_file": "commands/150-S6-cleanup-cgroup-tree.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "pgrep",
+        "-a",
+        "-f",
+        "filiolae-containment-harness"
+      ],
+      "elapsed_seconds": 0.012665,
+      "name": "cleanup-process-scan",
+      "returncode": 1,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.481772Z",
+      "stderr_file": "commands/151-S6-cleanup-process-scan.stderr.txt",
+      "stdout_file": "commands/151-S6-cleanup-process-scan.stdout.txt",
+      "timed_out": false
+    },
+    {
+      "argv": [
+        "git",
+        "-C",
+        "/home/runner/work/Filiolae/Filiolae",
+        "rev-parse",
+        "HEAD"
+      ],
+      "elapsed_seconds": 0.001125,
+      "name": "final-git-head",
+      "returncode": 0,
+      "scenario": "S6",
+      "started_at": "2026-08-12T03:51:18.495687Z",
+      "stderr_file": "commands/152-S6-final-git-head.stderr.txt",
+      "stdout_file": "commands/152-S6-final-git-head.stdout.txt",
+      "timed_out": false
+    }
+  ],
+  "completed_at": "2026-08-12T03:51:18.495680Z",
+  "error": null,
+  "non_claims": [
+    "production security",
+    "actual boot persistence",
+    "remote or WORM receipt retention",
+    "trusted time",
+    "evaluator isolation or candidate quality",
+    "GPU device containment",
+    "public release readiness"
+  ],
+  "passed": true,
+  "scenarios": {
+    "S0": {
+      "note": "identity and permission checks executed during baseline setup",
+      "passed": true
+    },
+    "S1": {
+      "events": [
+        "run.genesis",
+        "config.resolved",
+        "batch.committed",
+        "source_eval.result",
+        "weights.published",
+        "gate.approved",
+        "policy.promoted"
+      ],
+      "passed": true,
+      "run_id": "gd-baseline"
+    },
+    "S2": {
+      "events": [
+        "run.genesis"
+      ],
+      "failure_at": "2026-08-12T03:49:45.535918Z",
+      "orchestrator_state": "failed",
+      "passed": true,
+      "run_id": "gd-witness-crash",
+      "witness_state": "failed"
+    },
+    "S3": {
+      "events_after": [
+        "run.genesis",
+        "config.resolved",
+        "batch.committed",
+        "source_eval.result",
+        "weights.published",
+        "tripwire.fired",
+        "gate.denied"
+      ],
+      "events_before_reconcile": [
+        "run.genesis",
+        "config.resolved",
+        "batch.committed",
+        "source_eval.result",
+        "weights.published",
+        "tripwire.fired",
+        "gate.denied"
+      ],
+      "first_result": {
+        "error": "Ledger-head anchoring failed: AnchorError: witness transport failed; durable denial commit failed: AnchorError: witness transport failed",
+        "error_type": "PromotionDenied",
+        "identity": {
+          "cgroup": "0::/filiolae.slice/filiolae-governed.slice/filiolae-orchestrator@gd-witness-hang.service\n",
+          "gid": 985,
+          "groups": [
+            985,
+            987
+          ],
+          "pgid": 2936,
+          "pid": 2936,
+          "ppid": 1,
+          "sid": 2936,
+          "timestamp": "2026-08-12T03:50:20.935284Z",
+          "uid": 985
+        },
+        "ok": false
+      },
+      "passed": true,
+      "reconcile_result": {
+        "identity": {
+          "cgroup": "0::/filiolae.slice/filiolae-governed.slice/filiolae-orchestrator@gd-witness-hang.service\n",
+          "gid": 985,
+          "groups": [
+            985,
+            987
+          ],
+          "pgid": 2936,
+          "pid": 2936,
+          "ppid": 1,
+          "sid": 2936,
+          "timestamp": "2026-08-12T03:50:21.703426Z",
+          "uid": 985
+        },
+        "ok": true,
+        "receipt_sha256": null
+      },
+      "run_id": "gd-witness-hang",
+      "second_result": {
+        "error": "run already frozen: Ledger-head anchoring failed: AnchorError: witness transport failed; durable denial commit failed: AnchorError: witness transport failed",
+        "error_type": "PromotionDenied",
+        "identity": {
+          "cgroup": "0::/filiolae.slice/filiolae-governed.slice/filiolae-orchestrator@gd-witness-hang.service\n",
+          "gid": 985,
+          "groups": [
+            985,
+            987
+          ],
+          "pgid": 2936,
+          "pid": 2936,
+          "ppid": 1,
+          "sid": 2936,
+          "timestamp": "2026-08-12T03:50:22.207578Z",
+          "uid": 985
+        },
+        "ok": false
+      }
+    },
+    "S4": {
+      "cases": [
+        {
+          "case": "key",
+          "events": [],
+          "orchestrator_state": "inactive",
+          "passed": true,
+          "run_id": "gd-startup-key",
+          "start_returncode": 1,
+          "witness_state": "failed"
+        },
+        {
+          "case": "lock",
+          "events": [],
+          "orchestrator_state": "inactive",
+          "passed": true,
+          "run_id": "gd-startup-lock",
+          "start_returncode": 0,
+          "witness_state": "inactive"
+        },
+        {
+          "case": "enrollment",
+          "events": [],
+          "orchestrator_state": "inactive",
+          "passed": true,
+          "run_id": "gd-startup-enrollment",
+          "start_returncode": 1,
+          "witness_state": "inactive"
+        },
+        {
+          "case": "socket",
+          "events": [],
+          "orchestrator_state": "inactive",
+          "passed": true,
+          "run_id": "gd-startup-socket",
+          "start_returncode": 1,
+          "witness_state": "failed"
+        },
+        {
+          "case": "config",
+          "events": [],
+          "orchestrator_state": "inactive",
+          "passed": true,
+          "run_id": "gd-startup-config",
+          "start_returncode": 0,
+          "witness_state": "active"
+        }
+      ],
+      "passed": true
+    },
+    "S5": {
+      "excluded": true,
+      "passed": null,
+      "reason": "deterministic lost-response relay not yet implemented; no timing-race claim"
+    },
+    "S6": {
+      "active_units": [],
+      "cgroup_processes": {},
+      "cgroup_scan_returncode": 0,
+      "completed_at": "2026-08-12T03:51:18.495464Z",
+      "harness_survivors": [],
+      "passed": true,
+      "private_key_present": false,
+      "started_at": "2026-08-12T03:51:18.244270Z"
+    }
+  },
+  "schema": "filiolae.native-systemd-containment-game-day.v1",
+  "source_commit": "35529fec51727d360a77b41f56a19134cde94d80",
+  "started_at": "2026-08-12T03:49:11.653940Z"
+}

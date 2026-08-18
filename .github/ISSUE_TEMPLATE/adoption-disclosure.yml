@@ -1,0 +1,63 @@
+name: Adoption disclosure
+description: Voluntarily report or update evaluation, research, pilot, deployment, or discontinuation.
+title: "Adoption disclosure: "
+labels: [adoption-registry]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report only information the named organization has authorized for publication. Registration is
+        not certification, endorsement, or evidence that Filiolae is effective or production-ready.
+  - type: input
+    id: organization
+    attributes:
+      label: Organization
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options: [evaluation, research, pilot, deployment, discontinued]
+    validations:
+      required: true
+  - type: dropdown
+    id: license-path
+    attributes:
+      label: License path
+      options: [AGPL-3.0-only, commercial]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Filiolae version, commit, or identified fork
+    validations:
+      required: true
+  - type: input
+    id: first-use-month
+    attributes:
+      label: First-use month
+      placeholder: YYYY-MM
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Nonsensitive scope statement
+    validations:
+      required: true
+  - type: input
+    id: statement-url
+    attributes:
+      label: Organization-approved public statement URL
+      placeholder: https://
+    validations:
+      required: true
+  - type: checkboxes
+    id: authority
+    attributes:
+      label: Authority
+      options:
+        - label: I am authorized to request publication of this statement for the named organization.
+          required: true

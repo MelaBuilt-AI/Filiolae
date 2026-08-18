@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+if [ "$#" -eq 5 ] \
+  && [ "$1" = "install" ] \
+  && [ "$2" = "-q" ] \
+  && [ "$3" = "-U" ] \
+  && [ "$4" = "--user" ] \
+  && [ "$5" = "uv" ]; then
+  here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  test "$("$here/uv" --version)" = "uv 0.11.8 (x86_64-unknown-linux-gnu)"
+  exit 0
+fi
+echo "manifest-bound pip shim rejected an unexpected command" >&2
+exit 64

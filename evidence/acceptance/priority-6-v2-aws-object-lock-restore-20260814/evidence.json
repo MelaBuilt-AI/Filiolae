@@ -1,0 +1,84 @@
+{
+  "schema": "filiolae.priority6_v2.owner_supplied_aws_object_lock_restore.v1",
+  "recorded_at": "2026-08-14T16:00:00Z",
+  "archive": {
+    "filename": "gate-f-evidence-ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab.tar.gz",
+    "canonical_size_bytes": 2385167636,
+    "canonical_sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab"
+  },
+  "source": {
+    "provider": "Owner-supplied proof directory",
+    "agent_access_boundary": "The agent read and hashed the four proof files copied into this directory. It did not access the AWS account, S3 bucket/object/version, backup application, or restored D: archive.",
+    "files": [
+      {
+        "path": "source/aws-object-lock-backup.jpg",
+        "source_filename": "AWS backup.jpg",
+        "size_bytes": 142219,
+        "sha256": "02284f465431e2dec6df297e536eeefaf0a1fdbbcc9c10a1017333d611ef5310"
+      },
+      {
+        "path": "source/aws-backup-report.csv",
+        "source_filename": "AWS Report.csv",
+        "size_bytes": 495,
+        "sha256": "ef236032c63e271458bf23323cdef8ea57631d6837426bcdd6c75f37150077f1"
+      },
+      {
+        "path": "source/aws-restore-report.csv",
+        "source_filename": "AWS Restore.csv",
+        "size_bytes": 498,
+        "sha256": "8af8c3d62d056b8befdb37d7513e507729c2b7ae98ebd216dc9747f3c5bb6f81"
+      },
+      {
+        "path": "source/restored-archive-sha256.txt",
+        "source_filename": "Get-FileHash -Algorithm SHA256 DFil.txt",
+        "size_bytes": 778,
+        "sha256": "d9362e27ddd84754db608b949d5289d8dbf4a985e5d3e3290ae6bfe0d39eec44"
+      }
+    ]
+  },
+  "reported_backup_configuration": {
+    "destination_label": "AWS S3 Immutable",
+    "object_lock_immutability": "Enabled",
+    "retention_days": 1095,
+    "yearly_full_retention_years": 3,
+    "yearly_full_anchor": "first successful as of September",
+    "full_consistency_check": "Enabled",
+    "compression": "Enabled",
+    "encryption": "AES 256 bit",
+    "synthetic_full_backup": "Enabled",
+    "last_run": "2026-08-14 11:23 AM (as displayed)",
+    "last_result": "Success indicator displayed",
+    "read_display": "2.22 GB",
+    "uploaded_display": "815 MB",
+    "evidence_path": "source/aws-object-lock-backup.jpg"
+  },
+  "reported_backup": {
+    "result": "Success",
+    "finish_time": "2026-08-14 11:38:05",
+    "duration_seconds": 178,
+    "archive_reported_size_bytes": 854346086,
+    "interpretation": "The backup report size aligns with the screenshot upload amount and is treated as uploaded/deduplicated backup representation, not the canonical restored archive size.",
+    "evidence_path": "source/aws-backup-report.csv"
+  },
+  "reported_restore": {
+    "result": "Success",
+    "finish_time": "2026-08-14 11:47:56",
+    "duration_seconds": 29,
+    "archive_reported_size_bytes": 2385167636,
+    "size_matches_canonical": true,
+    "evidence_path": "source/aws-restore-report.csv"
+  },
+  "reported_post_restore_hash": {
+    "algorithm": "SHA256",
+    "sha256": "ffe77bc5f4b6f7c65dc7c2a7ff44eeb5335789431b389ed0eedb3d5f1adb57ab",
+    "matches_canonical": true,
+    "evidence_path": "source/restored-archive-sha256.txt"
+  },
+  "supported_claim": "Owner-supplied evidence supports a successful AWS S3 Immutable backup with Object Lock reported enabled and 1095-day retention, followed by a successful full restore whose reported byte size and PowerShell SHA-256 match the canonical Gate F evidence archive.",
+  "claim_boundary": [
+    "The proof files are directly retained and hashed by the agent; the AWS object and restored archive were not directly accessed or hashed by the agent.",
+    "The screenshot records backup-application configuration and status, not an independent AWS API response with bucket ARN, object version ID, retention mode, retain-until timestamp, or legal-hold state.",
+    "This evidence supports source-backed cloud backup and recovery verification; it is not provider-independent disaster-recovery acceptance or proof that retention controls cannot be changed by every possible administrator.",
+    "The accepted candidate and consumed suites remain frozen; no archive extraction, tuning, rerun, filtering, repair, deployment, or promotion authority follows from preservation."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "filiolae.transparency-s2-monitor-report.v1",
+  "monitor": "independent-go",
+  "status": "healthy",
+  "tree_size": 11,
+  "root_hex": "45aa3dbdab63eb1a54294b539ba61d3d3ff78abede95f6713acc41b6ebd81492",
+  "consistency_proof_hex": [
+    "56587c143c0803602b1c4c74768baaa1665cb12618397a60c7c2a918c0bce72f",
+    "83304e78c415bd8841728fd88832a219423f65198a24e6d42a0bec81dc9a3212",
+    "f1d99824fe393db9b63305781c0e71536e1f73e22ee5a09d5c20f4f7447d4387",
+    "96651faa12987fd7c07019148cb8b4b51de3b7174513d11ec51c4f8db22ca449"
+  ],
+  "resources": {
+    "/tile/entries/000.p/11": "92a1d9a5621c31f08d4a43b0778e6abb0aa979b1d3c5fa54f7c429192cc25862",
+    "/tile/entries/000.p/9": "95cd66d76f3797beda7ae199d79d48ec429f34bb90b91c5bbd2b24b8e1bd8ce1"
+  }
+}

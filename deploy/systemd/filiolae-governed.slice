@@ -1,0 +1,8 @@
+[Unit]
+Description=Filiolae governed workloads
+
+[Slice]
+CPUAccounting=yes
+MemoryAccounting=yes
+TasksAccounting=yes
+TasksMax=8192

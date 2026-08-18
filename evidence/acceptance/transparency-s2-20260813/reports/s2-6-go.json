@@ -1,0 +1,21 @@
+{
+  "schema": "filiolae.transparency-s2-monitor-report.v1",
+  "monitor": "independent-go",
+  "status": "healthy",
+  "tree_size": 16,
+  "root_hex": "f9d6db4e49cbf86a0fb06f4444b3950bfcb1eb8f73191a54ae283a84ac10790d",
+  "consistency_proof_hex": [
+    "1fa1fb9a97cd793d3dc4ebc12855708ce40ebe66e2a4ebb2ef0e9b12b49ff2e1",
+    "89b01270172615dc008a819a56841e059caba1ccd3d4268b93691ae54415e980",
+    "41893bd3bd63bc92db26a29da9cd47f27e24fdc8a80b0a453e044b9ad4e8a4df",
+    "0b2fb27fa259798c4a9d29de9c8bbce044a021b31bce704256cea5361028c2c5",
+    "96651faa12987fd7c07019148cb8b4b51de3b7174513d11ec51c4f8db22ca449"
+  ],
+  "resources": {
+    "/tile/entries/000.p/11": "92a1d9a5621c31f08d4a43b0778e6abb0aa979b1d3c5fa54f7c429192cc25862",
+    "/tile/entries/000.p/14": "17269e98d41b8f54f0698143991642725244ad5c0f863814c291e8daede151d1",
+    "/tile/entries/000.p/15": "d81f725639dec51b6444611052564a9e7c204ddbe3baa4fca2fd795b091879c6",
+    "/tile/entries/000.p/16": "58d0e91212d5adaef725c8ce6029e34a6083254f3cc7736cb3ad1542b2c1cc5e",
+    "/tile/entries/000.p/9": "95cd66d76f3797beda7ae199d79d48ec429f34bb90b91c5bbd2b24b8e1bd8ce1"
+  }
+}

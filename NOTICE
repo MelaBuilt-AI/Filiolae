@@ -1,0 +1,13 @@
+Filiolae
+Copyright 2026 MelaBuilt AI and Filiolae contributors
+
+Software in this repository is licensed under the GNU Affero General Public License,
+Version 3 only (AGPL-3.0-only). Separate commercial rights are available only through
+an executed agreement with MelaBuilt AI. Documentation, policy, the adoption registry,
+and repository-authored evidence are licensed under Creative Commons Attribution 4.0
+International, except where a file states otherwise. See LICENSES.md.
+
+No trademark, certification, production-readiness, or endorsement rights are granted.
+This product includes or interoperates with third-party software and standards that
+remain under their respective licenses and terms. Dependency and provenance details
+are recorded in uv.lock, interop module files, and the cited evidence documentation.

@@ -1,0 +1,10 @@
+{
+  "schema": "filiolae.transparency-s2-monitor-report.v1",
+  "monitor": "independent-go",
+  "status": "healthy",
+  "tree_size": 9,
+  "root_hex": "9c5664c793af5a8812e29e89f1b258741e1d581316b5a9c27721548f69c98c78",
+  "resources": {
+    "/tile/entries/000.p/9": "95cd66d76f3797beda7ae199d79d48ec429f34bb90b91c5bbd2b24b8e1bd8ce1"
+  }
+}

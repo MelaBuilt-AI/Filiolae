@@ -1,0 +1,6 @@
+{
+  "monitor": "filiolae-python",
+  "reason": "previously immutable resource changed",
+  "schema": "filiolae.transparency-s2-monitor-report.v1",
+  "status": "suspect"
+}
